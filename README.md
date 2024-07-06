@@ -16,7 +16,7 @@ The module has several connections:
 
 * Modbus connection (on the lower side of the device, mared **M**)
 * Two or four relays (on the right side of the device, marked **R1-4**)
-* Three temperature sensor connection (the upper three connection on the left side, marked **P1-3**)
+* Three temperature sensor connection (the upper three connection on the left side, marked **T1-3**)
 * Pulse sensor connection (the lower connection on the left side, marked **P**)
 * USB-C connection for powering the device
 
