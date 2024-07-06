@@ -6,7 +6,7 @@ This repository contains the firmware for the *Itho Daalderop Amber Heat Pump co
 
 When connected, you have the ability to read out sensor values and control switches and numeric values. The complete list of sensors, switches and numeric values can be found [here](#amber-sensors-and-switches).
 
-The device is based on ESPHome, this means it can be integrated in Home Assistant and can be used in automations. A user interface is available on the device itself through a browser. Because it is a closed firmware, it is not possible to adopt the device into the ESPHome Dashboard and adjust the configuration yourself.
+The device is based on ESPHome, this means it can be integrated in Home Assistant and can be used in automations. A user interface is available on the [device itself](http://ithodaalderop.local/) through a browser. Because it is a closed firmware, it is not possible to adopt the device into the ESPHome Dashboard and adjust the configuration yourself.
 
 **Please be advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber. Reading of the values does not alter the schema.**
 
@@ -49,13 +49,20 @@ If this portal does not open automatically, open a browser and go to the address
 1. Select the correct network and enter the password if needed
 1. Press Save
 
-
-
 Once the network is selected it will be stored on the control module. If the control module can not connect to the configured network after one minute it will start broadcasting the IthoDaalderop network again and you can follow the above steps to select the correct new network. This is for example the case when you make changes to your home network.
 
 ### Install the control module in Home Assistant
 
 **TODO: Explain how to install the module in Home Assistant**
+
+Once the control module is connected to the WiFi Home Assistant should detect the control module. You will be notified in the menu:
+
+**TODO: Add images**
+
+Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
+Use the following details to install the control module:
+
+![ESPHome configuration](/images/hass-config-esphome-en.png)
 
 ## Firmware updates
 
