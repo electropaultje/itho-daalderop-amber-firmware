@@ -46,7 +46,9 @@ The control module comes preinstalled with the latest software. When first power
 1. A portal should open in which you can select the correct WiFi network and enter the password.  
 If this portal does not open automatically, open a browser and go to the address [192.168.4.1](http://192.168.4.1/)
 1. Select the correct network and enter the password if needed
-1. Select Join
+1. Press Save
+
+![Captive portal](/images/captive_portal-ui.png)
 
 Once the network is selected it will be stored on the control module. If the control module can not connect to the configured network after one minute it will start broadcasting the IthoDaalderop network again and you can follow the above steps to select the correct new network. This is for example the case when you make changes to your home network.
 
