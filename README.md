@@ -8,7 +8,7 @@ When connected, you have the ability to read out sensor values and control switc
 
 The device is based on ESPHome, this means it can be integrated in Home Assistant and can be used in automations. A user interface is available on the device itself through a browser. Because it is a closed firmware, it is not possible to adopt the device into the ESPHome Dashboard and adjust the configuration yourself.
 
-**Please be a advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber.**
+**Please be a advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber. Reading of the values does not alter the schema.**
 
 ## Connections
 
