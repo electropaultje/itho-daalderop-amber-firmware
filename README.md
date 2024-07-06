@@ -35,6 +35,10 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 **TODO: Explain how to connect the module to the Amber**
 
+Connect the connection M to the Amber computer.
+
+![Amber connection](/images/amber_connection.jpg)
+
 ## Amber sensors and switches
 
 ### Read only numeric sensors
