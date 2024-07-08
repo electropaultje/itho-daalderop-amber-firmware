@@ -68,7 +68,7 @@ Zodra de control module is verbonden aan het lokale WiFi netwerk zou Home Assist
 Mocht de control module niet automatisch gedetecteerd worden door Home Assistant, dan is het mogelijk om deze [handmatig te installeren](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Gebruik de volgende gegeven om het apparaat te installeren:
 
-![ESPHome configuration](/images/hass-config-esphome-en.png)
+![ESPHome configuration](/images/hass-config-esphome-nl.png)
 
 ## Firmware updates
 
