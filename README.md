@@ -14,6 +14,8 @@ The device is based on ESPHome, this means it can be integrated in Home Assistan
 
 The module has several connections:
 
+**TODO: Add image of control module**
+
 * Modbus connection (on the lower side of the device, marked **M**)
 * Two or four relays (on the right side of the device, marked **R1-4**)
 * Three temperature sensor connection (the upper three connection on the left side, marked **T1-3**)
@@ -63,8 +65,6 @@ Once the control module is connected to the WiFi Home Assistant should detect th
 
 Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Use the following details to install the control module:
-
-**TODO: Update image to show the correct dns name**
 
 ![ESPHome configuration](/images/hass-config-esphome-en.png)
 
