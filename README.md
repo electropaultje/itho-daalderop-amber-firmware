@@ -31,7 +31,9 @@ The pulse sensor connection can be used to connect a flow sensor to determine th
 ## Installing the control module
 
 ### Physical installation
-Connect the connection M to the Amber computer.
+For ease of installation, it is possible to remove the connectors from the control module.
+
+Connect the connection M to the Amber computer. When holding the control module upright, the left connection is A and the right is B. Connect A to the upper modbus connection in the Amber and B in the lower one.
 
 **TODO: Explain how to connect the module to the Amber**
 
