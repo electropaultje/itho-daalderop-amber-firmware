@@ -76,7 +76,7 @@ Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden (vanaf v
 
 **TODO: Add a picture of a waiting update in Home Assistant**
 
-*An update will also be shown in the web interface of the control module. It is at this moment not possible to automatically update the control module. You have to download the latest firmware from GitHub and upload it yourself through the web interface.*
+*Een update is ook zichtbaar in de gebruikers interface op het apparaat zelf. Op dit moment is het niet mogelijk om vanaf deze pagina met een druk op de knop de control module te updaten. Door de laatste software van GitHub te downloaden en handmatig te updaten kan het apparaat alsnog worden bijgewerkt buiten Home Assistant om.*
 
 ## Amber sensoren en schakelaars
 
