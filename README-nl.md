@@ -121,6 +121,7 @@ De namen van de sensoren zijn in het Engels.
 * Heating mode
 * Cooling mode
 * Use heating curve
+* Domestic hot water ECO mode
 
 ### Numerieke waarden
 
@@ -131,6 +132,7 @@ De namen van de sensoren zijn in het Engels.
 * Domestic hot water reheating point
 * Cooling setpoint (for whencooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
+* Minimum ambient temperature to start domestic hot water ECO mode
 
 ### Berekende waarden
 

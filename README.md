@@ -117,6 +117,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Heating mode
 * Cooling mode
 * Use heating curve
+* Domestic hot water ECO mode
 
 ### Numeric values
 
@@ -127,6 +128,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Domestic hot water reheating point
 * Cooling setpoint (for whencooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
+* Minimum ambient temperature to start domestic hot water ECO mode
 
 ### Calculated values
 
