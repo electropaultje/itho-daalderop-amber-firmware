@@ -1,5 +1,7 @@
 # Itho Daalderop Amber Heat Pump control module
 
+**Disclaimer:** Deze software is op geen enkele manier verbonden aan het bedrijf Itho Daalderop.
+
 ## Samenvatting
 
 Deze repository bevat de firmware voor de *Itho Daalderop Amber Heat Pump control module*. Deze control module is een door ons ontwikkelde hardware oplossing waarmee Itho Daalderop Amber warmtepompen kunnen worden bestuurd. De control module kan [hier](https://forms.gle/3R2AAtGyy7Cqq65Q9)  besteld worden.
