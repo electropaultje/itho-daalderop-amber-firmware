@@ -61,11 +61,15 @@ Zodra het netwerk is gekozen zal het worden opgeslagen op de control module. Als
 
 ### Installeer de control module in Home Assistant
 
-**TODO: Explain how to install the module in Home Assistant**
-
 Zodra de control module is verbonden aan het lokale WiFi netwerk zou Home Assistant het apparaat moeten detecteren. Dit wordt aangegeven in het menu:
 
-**TODO: Add images**
+![New devices discoverd](/images/hass-new-device-discoverd-en.png)
+
+Door op *Check it out* te klikken zal de integraties pagina openen.
+
+![Configure device](/images/hass-add-device-nl.png)
+
+Klikken op *Configureren* zal de installatie in Home Assistant starten.
 
 Mocht de control module niet automatisch gedetecteerd worden door Home Assistant, dan is het mogelijk om deze [handmatig te installeren](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Gebruik de volgende gegeven om het apparaat te installeren:

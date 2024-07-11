@@ -59,11 +59,15 @@ Once the network is selected it will be stored on the control module. If the con
 
 ### Install the control module in Home Assistant
 
-**TODO: Explain how to install the module in Home Assistant**
-
 Once the control module is connected to the WiFi Home Assistant should detect the control module. You will be notified in the menu:
 
-**TODO: Add images**
+![New devices discoverd](/images/hass-new-device-discoverd-en.png)
+
+By clicking on *Check it out* the Integration page will be openend.
+
+![Configure device](/images/hass-add-device-en.png)
+
+Clicking on *Configure* will start the installation in Home Assistant.
 
 Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Use the following details to install the control module:
