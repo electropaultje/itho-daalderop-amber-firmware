@@ -80,7 +80,7 @@ Gebruik de volgende gegeven om het apparaat te installeren:
 
 Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden (vanaf versie 2024.7.0).
 
-**TODO: Add a picture of a waiting update in Home Assistant**
+![Update available](/images/hass-update-device-nl.png)
 
 *Een update is ook zichtbaar in de gebruikers interface op het apparaat zelf. Op dit moment is het niet mogelijk om vanaf deze pagina met een druk op de knop de control module te updaten. Door de laatste software van GitHub te downloaden en handmatig te updaten kan het apparaat alsnog worden bijgewerkt buiten Home Assistant om.*
 

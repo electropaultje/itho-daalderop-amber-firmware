@@ -78,7 +78,7 @@ Use the following details to install the control module:
 
 When an update is available, this will be shown in Home Assistant (needed version 2024.7.0 or later). 
 
-**TODO: Add a picture of a waiting update in Home Assistant**
+![Update available](/images/hass-update-device-en.png)
 
 *An update will also be shown in the web interface of the control module. It is at this moment not possible to automatically update the control module. You have to download the latest firmware from GitHub and upload it yourself through the web interface.*
 
