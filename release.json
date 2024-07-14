@@ -5,7 +5,7 @@
       {
         "chipFamily": "ESP32",
         "ota": {
-          "md5": "032b778c7e92e665de411288c94d64d4",
+          "md5": "40624ae6d86687b3e8fe7d1443df0c80",
           "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware/version-1-0-0.bin"
         }
       }
