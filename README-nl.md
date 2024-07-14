@@ -115,19 +115,23 @@ De namen van de sensoren zijn in het Engels.
 ### Binaire sensoren (aan / uit, alleen lezen)
 
 * Heating switch
+* Heating switch circuit 2
 * Cooling switch
 * Defrost
 * Domestic hot water in progress
 * Heating in progress
 * Cooling in progress
+* Water flow switch
 
 ### Schakelaar (aan / uit)
 
+* System on/off
 * Domestic hot water mode
 * Heating mode
 * Cooling mode
 * Use heating curve
 * Domestic hot water ECO mode
+* Use domestic hot water timer
 
 ### Numerieke waarden
 
@@ -136,7 +140,7 @@ De namen van de sensoren zijn in het Engels.
 * Delta T to lower compressor speed
 * Domestic hot water setpoint
 * Domestic hot water reheating point
-* Cooling setpoint (for whencooling curve is not used)
+* Cooling setpoint (for when cooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
 * Minimum ambient temperature to start domestic hot water ECO mode
 

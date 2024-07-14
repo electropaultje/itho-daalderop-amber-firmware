@@ -111,19 +111,23 @@ When an update is available, this will be shown in Home Assistant (needed versio
 ### Readonly binary sensors (on / off)
 
 * Heating switch
+* Heating switch circuit 2
 * Cooling switch
 * Defrost
 * Domestic hot water in progress
 * Heating in progress
 * Cooling in progress
+* Water flow switch
 
 ### Switches (on / off)
 
+* System on/off
 * Domestic hot water mode
 * Heating mode
 * Cooling mode
 * Use heating curve
 * Domestic hot water ECO mode
+* Use domestic hot water timer
 
 ### Numeric values
 
@@ -132,7 +136,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Delta T to lower compressor speed
 * Domestic hot water setpoint
 * Domestic hot water reheating point
-* Cooling setpoint (for whencooling curve is not used)
+* Cooling setpoint (for when cooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
 * Minimum ambient temperature to start domestic hot water ECO mode
 
