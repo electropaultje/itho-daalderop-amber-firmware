@@ -1,0 +1,13 @@
+{
+    "name": "Itho Daalderop Amber Control Module",
+    "version": "1.0.0",
+    "builds": [
+      {
+        "chipFamily": "ESP32",
+        "ota": {
+          "md5": "40624ae6d86687b3e8fe7d1443df0c80",
+          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware/version-1-0-0.bin"
+        }
+      }
+    ]
+  }

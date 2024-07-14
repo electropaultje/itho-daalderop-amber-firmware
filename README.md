@@ -59,11 +59,15 @@ Once the network is selected it will be stored on the control module. If the con
 
 ### Install the control module in Home Assistant
 
-**TODO: Explain how to install the module in Home Assistant**
-
 Once the control module is connected to the WiFi Home Assistant should detect the control module. You will be notified in the menu:
 
-**TODO: Add images**
+![New devices discoverd](/images/hass-new-device-discoverd-en.png)
+
+By clicking on *Check it out* the Integration page will be openend.
+
+![Configure device](/images/hass-add-device-en.png)
+
+Clicking on *Configure* will start the installation in Home Assistant.
 
 Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Use the following details to install the control module:
@@ -74,7 +78,7 @@ Use the following details to install the control module:
 
 When an update is available, this will be shown in Home Assistant (needed version 2024.7.0 or later). 
 
-**TODO: Add a picture of a waiting update in Home Assistant**
+![Update available](/images/hass-update-device-en.png)
 
 *An update will also be shown in the web interface of the control module. It is at this moment not possible to automatically update the control module. You have to download the latest firmware from GitHub and upload it yourself through the web interface.*
 
@@ -107,19 +111,23 @@ When an update is available, this will be shown in Home Assistant (needed versio
 ### Readonly binary sensors (on / off)
 
 * Heating switch
+* Heating switch circuit 2
 * Cooling switch
 * Defrost
 * Domestic hot water in progress
 * Heating in progress
 * Cooling in progress
+* Water flow switch
 
 ### Switches (on / off)
 
+* System on/off
 * Domestic hot water mode
 * Heating mode
 * Cooling mode
 * Use heating curve
 * Domestic hot water ECO mode
+* Use domestic hot water timer
 
 ### Numeric values
 
@@ -128,7 +136,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Delta T to lower compressor speed
 * Domestic hot water setpoint
 * Domestic hot water reheating point
-* Cooling setpoint (for whencooling curve is not used)
+* Cooling setpoint (for when cooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
 * Minimum ambient temperature to start domestic hot water ECO mode
 

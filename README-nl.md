@@ -61,11 +61,15 @@ Zodra het netwerk is gekozen zal het worden opgeslagen op de control module. Als
 
 ### Installeer de control module in Home Assistant
 
-**TODO: Explain how to install the module in Home Assistant**
-
 Zodra de control module is verbonden aan het lokale WiFi netwerk zou Home Assistant het apparaat moeten detecteren. Dit wordt aangegeven in het menu:
 
-**TODO: Add images**
+![New devices discoverd](/images/hass-new-device-discoverd-en.png)
+
+Door op *Check it out* te klikken zal de integraties pagina openen.
+
+![Configure device](/images/hass-add-device-nl.png)
+
+Klikken op *Configureren* zal de installatie in Home Assistant starten.
 
 Mocht de control module niet automatisch gedetecteerd worden door Home Assistant, dan is het mogelijk om deze [handmatig te installeren](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
 Gebruik de volgende gegeven om het apparaat te installeren:
@@ -76,7 +80,7 @@ Gebruik de volgende gegeven om het apparaat te installeren:
 
 Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden (vanaf versie 2024.7.0).
 
-**TODO: Add a picture of a waiting update in Home Assistant**
+![Update available](/images/hass-update-device-nl.png)
 
 *Een update is ook zichtbaar in de gebruikers interface op het apparaat zelf. Op dit moment is het niet mogelijk om vanaf deze pagina met een druk op de knop de control module te updaten. Door de laatste software van GitHub te downloaden en handmatig te updaten kan het apparaat alsnog worden bijgewerkt buiten Home Assistant om.*
 
@@ -111,19 +115,23 @@ De namen van de sensoren zijn in het Engels.
 ### Binaire sensoren (aan / uit, alleen lezen)
 
 * Heating switch
+* Heating switch circuit 2
 * Cooling switch
 * Defrost
 * Domestic hot water in progress
 * Heating in progress
 * Cooling in progress
+* Water flow switch
 
 ### Schakelaar (aan / uit)
 
+* System on/off
 * Domestic hot water mode
 * Heating mode
 * Cooling mode
 * Use heating curve
 * Domestic hot water ECO mode
+* Use domestic hot water timer
 
 ### Numerieke waarden
 
@@ -132,7 +140,7 @@ De namen van de sensoren zijn in het Engels.
 * Delta T to lower compressor speed
 * Domestic hot water setpoint
 * Domestic hot water reheating point
-* Cooling setpoint (for whencooling curve is not used)
+* Cooling setpoint (for when cooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
 * Minimum ambient temperature to start domestic hot water ECO mode
 
