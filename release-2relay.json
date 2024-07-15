@@ -5,8 +5,8 @@
       {
         "chipFamily": "ESP32",
         "ota": {
-          "md5": "d1189429f3b87652b0f2bcdf1d256a42",
-          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-0-0.bin"
+          "md5": "a5523f4f39a22413c7eebcdd3117cb4f",
+          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-0-0.bin"
         }
       }
     ]
