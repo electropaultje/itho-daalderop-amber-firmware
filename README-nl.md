@@ -147,6 +147,19 @@ De namen van de sensoren zijn in het Engels.
 ### Berekende waarden
 
 * Delta T  
-  *Difference between Tui and Tuo*
+  *Verschil tussen Tui en Tuo*
 * Calculated heating temperature  
-  *Interpolated heating setpoint based on the heating ambient and water temperatures and the ambient temperature.*
+  *Geïnterpoleerd setpoint gebaseerd op de geconfigureerde stooklijn en de buitentemperatuur (ambient temperature)*
+
+
+### Configuratie instellingen
+
+* Flow sensor calibration  
+  *Zet deze op het aantal pulsen per liter als de pulssensor is aangesloten om zo correct het aantal liter en de doorstroming te kunnen berekenen*
+* Dallas temperature offset (1 through 3)  
+  *Gebruik deze instellingen om de aangesloten temperatuur sensoren correct te kalibreren*
+* Yellow LED status  
+  *Stel de functie in van de gele LED op de control module*
+* Allow anonymouse usage statistics  
+  *Sta toe dat elke zes uur er anonieme gebruikersdata wordt verstuurd (MAC address van de control module, firmware versie, aantal aangesloten temperatuur sensoren, aantal modbus lees- en schrijfacties en de staat van het geheugen van de control module.  
+  **Er wordt geen data verstuurd die aan de intallatie of gebruiker valt te linken!***

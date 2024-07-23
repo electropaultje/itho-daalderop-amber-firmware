@@ -146,3 +146,15 @@ When an update is available, this will be shown in Home Assistant (needed versio
   *Difference between Tui and Tuo*
 * Calculated heating temperature  
   *Interpolated heating setpoint based on the heating ambient and water temperatures and the ambient temperature.*
+
+### Configuration settings
+
+* Flow sensor calibration  
+  *Set to the number of pulses per liter when the pulse sensor is connected to correctly calculate the liters and flow*
+* Dallas temperature offset (1 through 3)  
+  *Use to offset the connected temperature sensors when they need to be corrected because of calibration differences*
+* Yellow LED status  
+  *Set the function of the yellow LED on the control module*
+* Allow anonymouse usage statistics  
+  *Allow once every six hours to send anonymized usage statistics (MAC address of the control module, firmware versions, number of connected temperature sensors, modbus reads and writes and state of the onboard memory).  
+  **No data is stored that can be linked to the installation!***
