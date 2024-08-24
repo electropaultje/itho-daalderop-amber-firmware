@@ -44,6 +44,8 @@ In de onderstaande afbeelding is de modbus verbinding met rood aangegeven:
 
 Verbind de connector M met de Amber computer. Als de control module rechtop gehouden wordt is de linker aansluiting A en de rechter B. Verbind A met de bovenste aansluiting van de modbus verbinding in de Amber en de B met de onderste.
 
+Als de verbindingskit wordt gebruikt is de rode draad de aansluiting A en moet met de bovenste van de twee aangegeven verbindingen worden verbonden. De zwarte gaat vervolgens op de onderste verbinding.
+
 ### Verbind de control module met de WiFi
 
 De control module wordt geleverd met de laatste software. Bij de eerste keer opstarten moet het apparaat verbonden worden met het lokale WiFi netwerk.  

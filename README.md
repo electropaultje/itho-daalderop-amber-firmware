@@ -43,6 +43,8 @@ In the image below the modbus connection is highlighted in red:
 
 Connect the connection M to the Amber computer. When holding the control module upright, the left connection is A and the right is B. Connect A to the upper modbus connection in the Amber and B in the lower one.
 
+When using the connection kit, A is the red wire and should be connected to the topmost connection of the indicated positions.
+
 ### Connect the control module to the WiFi
 
 The control module comes preinstalled with the latest software. When first powered on the device must be connected to your personal WiFi network. To do this follow the following steps:
