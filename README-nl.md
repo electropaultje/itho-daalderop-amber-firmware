@@ -111,6 +111,9 @@ De namen van de sensoren zijn in het Engels.
 * Heating curve water temperature (1 through 5)
 * Supply voltage
 * Running current
+* Average 1h ambient temperature
+* Average 4h ambient temperature
+* Average 24h ambient temperature
 
 ### Binaire sensoren (aan / uit, alleen lezen)
 

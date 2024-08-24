@@ -107,6 +107,9 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Heating curve water temperature (1 through 5)
 * Supply voltage
 * Running current
+* Average 1h ambient temperature
+* Average 4h ambient temperature
+* Average 24h ambient temperature
 
 ### Readonly binary sensors (on / off)
 
