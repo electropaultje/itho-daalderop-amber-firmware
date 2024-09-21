@@ -4,11 +4,11 @@
 
 ## Samenvatting
 
-Deze repository bevat de firmware voor de *Itho Daalderop Amber Heat Pump control module*. Deze control module is een door ons ontwikkelde hardware oplossing waarmee Itho Daalderop Amber warmtepompen kunnen worden bestuurd. De control module kan [hier](https://forms.gle/3R2AAtGyy7Cqq65Q9)  besteld worden.
+Deze repository bevat de firmware voor de *Itho Daalderop Amber Heat Pump control module*. Deze control module is een door ons ontwikkelde hardware oplossing waarmee Itho Daalderop Amber warmtepompen kunnen worden bestuurd. De control module kan [hier](https://forms.gle/3R2AAtGyy7Cqq65Q9) besteld worden.
 
 Zodra de control module is aangesloten bestaat de mogelijkheid om sensorwaarden uit te lezen en schakelaars en numerieke waarden in te stellen. De complete lijst met sensoren, schakelaars en numerieke waarden kan [hier](#amber-sensoren-en-schakelaars) gevonden worden.
 
-Het apparaat is gebasseerd op ESPHome. Dit houdt in dat het kan worden geïntegreerd in Home Assistent en kan worden gebruiken in automatiseringen. Er is een gebruikers interface beschikbaar op het [apparaat zelf](http://ithodaalderop-amber.local/) via een webbrowser. Omdat het gesloten firmware betreft is het niet mogelijk om de module in het ESPHome Dashboard op te nemen en zelfstandig de configuratie aan te passen.
+Het apparaat is gebasseerd op ESPHome. Dit houdt in dat het kan worden geïntegreerd in Home Assistent en kan worden gebruiken in automatiseringen. Er is een gebruikers interface beschikbaar op het [apparaat zelf](http://ithodaalderop-amber.local/) via een webbrowser.
 
 **Let op: de Amber firmware met versie 2.29 bevat een bug waardoor het legionalla schema wordt aangepast als er een instelling wordt geschreven. Het uitlezen van waarden heeft geen gevolgen voor het schema.**
 
@@ -168,3 +168,8 @@ De namen van de sensoren zijn in het Engels.
 * Allow anonymouse usage statistics  
   *Sta toe dat elke zes uur er anonieme gebruikersdata wordt verstuurd (MAC address van de control module, firmware versie, aantal aangesloten temperatuur sensoren, aantal modbus lees- en schrijfacties en de staat van het geheugen van de control module.  
   **Er wordt geen data verstuurd die aan de intallatie of gebruiker valt te linken!***
+
+  ## ESPHome configuratie
+
+  De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden ([2 relais](/firmware-2relay/firmware-2relay.yaml), [4 relais](/firmware-4relay/firmware-4relay.yaml)). Zodra gebruik gemaakt wordt van een eigen configuratie zal bij een update de eigen configuratie weer overschreven worden.  
+  **Let op: Er wordt geen support geleverd op zelf aangebrachte wijzigingen.**

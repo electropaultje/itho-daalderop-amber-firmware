@@ -8,7 +8,7 @@ This repository contains the firmware for the *Itho Daalderop Amber Heat Pump co
 
 When connected, you have the ability to read out sensor values and control switches and numeric values. The complete list of sensors, switches and numeric values can be found [here](#amber-sensors-and-switches).
 
-The device is based on ESPHome, this means it can be integrated in Home Assistant and can be used in automations. A user interface is available on the [device itself](http://ithodaalderop-amber.local/) through a browser. Because it is a closed firmware, it is not possible to adopt the device into the ESPHome Dashboard and adjust the configuration yourself.
+The device is based on ESPHome, this means it can be integrated in Home Assistant and can be used in automations. A user interface is available on the [device itself](http://ithodaalderop-amber.local/) through a browser.
 
 **Please be advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber. Reading of the values does not alter the schema.**
 
@@ -163,3 +163,8 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Allow anonymouse usage statistics  
   *Allow once every six hours to send anonymized usage statistics (MAC address of the control module, firmware versions, number of connected temperature sensors, modbus reads and writes and state of the onboard memory).  
   **No data is stored that can be linked to the installation!***
+
+## ESPHome configuration
+
+The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay](/firmware-2relay/firmware-2relay.yaml), [4 relay](/firmware-4relay/firmware-4relay.yaml)).  
+**Note: no support is given on self made changes**
