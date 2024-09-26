@@ -1,7 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: "1.2.0"
+  version: "1.2.1"
   statistics_url: "https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D"
 
 esphome:
@@ -649,8 +649,20 @@ binary_sensor:
     register_type: holding
     address: 536
   - platform: gpio
-    pin: GPIO34
-    name: Factory Reset
+    pin: 
+      number: GPIO34
+      inverted: true
+    id: factory_reset_pin
+    on_click:
+      then:
+        - repeat:
+            count: 5
+            then:
+              - light.turn_on: led_yellow
+              - delay: 200ms
+              - light.turn_off: led_yellow
+              - delay: 200ms    
+        - button.press: button_factory_reset    
 
 time:
   - platform: homeassistant
@@ -775,6 +787,7 @@ button:
   - platform: restart
     name: Restart control module
   - platform: factory_reset
+    id: button_factory_reset
     name: Factory reset control module
 
 number:

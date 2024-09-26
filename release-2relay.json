@@ -1,14 +1,14 @@
 {
     "name": "Itho Daalderop Amber Control Module",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "builds": [
       {
         "chipFamily": "ESP32",
         "ota": {
-          "md5": "22cb35466ca48fb628dc4aee65e8c445",
-          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-2-0.bin",
-          "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-12",
-          "summary": "Fixed extreme values reported sometimes"
+          "md5": "5be68b306059ac1dc7737df05042b392",
+          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-2-1.bin",
+          "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-121",
+          "summary": "Added support for factory reset hardware button on board v2.3"
         }
       }
     ]
