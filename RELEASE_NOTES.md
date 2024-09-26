@@ -21,3 +21,8 @@ Added three new temperature sensors:
 - Average 24h ambient temperature
 
 Increased modbus command throttle for stability
+
+## Version 1.2.1
+
+Added support for hardware Factory reset button introduced on PCB v2.3
+Update not needed when not using PCB v2.3
