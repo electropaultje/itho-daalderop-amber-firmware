@@ -29,14 +29,7 @@ api:
   reboot_timeout: 0s
 
 ota:
-  platform: http_request
-
-update:
-  - platform: http_request
-    name: Firmware update
-    id: firmware_update
-    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-4relay.json
-    update_interval: 4h
+  platform: esphome
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
@@ -1094,7 +1087,6 @@ script:
                   root["connected_temperature_sensors"] = id(connected_temperature_sensors).state;
                   root["device_identifier"] = id(mac_address).state;
                   root["firmware_version"] = "${version}";
-                  root["latest_firmware_version"] = id(firmware_update).update_info.latest_version;
                   root["modbus_reads"] = id(modbus_reads).state;
                   root["modbus_writes"] = id(modbus_writes).state;
                   root["relais_switches"] = id(relais_switch_changes).state;
