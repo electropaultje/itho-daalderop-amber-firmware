@@ -109,8 +109,6 @@ De namen van de sensoren zijn in het Engels.
 * Compressor working speed
 * Fan 1 working speed
 * Expansion valve setting
-* Heating curve ambient temperature (1 through 5)
-* Heating curve water temperature (1 through 5)
 * Supply voltage
 * Running current
 * Average 1h ambient temperature
@@ -137,6 +135,7 @@ De namen van de sensoren zijn in het Engels.
 * Use heating curve
 * Domestic hot water ECO mode
 * Use domestic hot water timer
+* Use anti legionella mode
 
 ### Numerieke waarden
 
@@ -145,9 +144,13 @@ De namen van de sensoren zijn in het Engels.
 * Delta T to lower compressor speed
 * Domestic hot water setpoint
 * Domestic hot water reheating point
+* Heating curve ambient temperature (1 through 5; **works for Amber version 2.29 and higher**)
+* Heating curve water temperature (1 through 5; **works for Amber version 2.29 and higher**)
 * Cooling setpoint (for when cooling curve is not used)
 * Heating setpoint (for when heating curve is not used)
 * Minimum ambient temperature to start domestic hot water ECO mode
+* Circuit 1 maximum temperature
+* Circuit 1 minimum temperature
 
 ### Berekende waarden
 
