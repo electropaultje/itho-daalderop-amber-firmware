@@ -152,6 +152,10 @@ De namen van de sensoren zijn in het Engels.
 * Circuit 1 maximum temperature
 * Circuit 1 minimum temperature
 
+### Selectiebox
+
+* Working mode (Heating, Cooling, Domestic hot water, Auto)
+
 ### Berekende waarden
 
 * Delta T  

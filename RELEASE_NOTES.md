@@ -37,3 +37,6 @@ Added switch:
 Added numbers:
 - Circuit 1 minimum temperature
 - Circuit 1 maximuim temperature
+
+Added select:
+- Working mode (options: Heating, Cooling, Domestic hot water, Auto)

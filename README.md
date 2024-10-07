@@ -148,6 +148,10 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Circuit 1 maximum temperature
 * Circuit 1 minimum temperature
 
+### Dropdown value
+
+* Working mode (Heating, Cooling, Domestic hot water, Auto)
+
 ### Calculated values
 
 * Delta T  
