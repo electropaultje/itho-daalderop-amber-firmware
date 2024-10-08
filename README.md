@@ -125,28 +125,28 @@ When an update is available, this will be shown in Home Assistant (needed versio
 ### Switches (on / off)
 
 * System on/off
-* Domestic hot water mode
-* Heating mode
-* Cooling mode
-* Use heating curve
-* Domestic hot water ECO mode
-* Use domestic hot water timer
-* Use anti legionella mode
+* Domestic hot water mode (M9.01)
+* Heating mode (M9.02)
+* Cooling mode (M9.03)
+* Use heating curve (M1.05)
+* Domestic hot water ECO mode (M3.09)
+* Use domestic hot water timer (M4.01)
+* Use anti legionella mode (M6.01)
 
 ### Numeric values
 
-* Delta T to stop heat pump
-* Delta T to restart heat pump
-* Delta T to lower compressor speed
-* Domestic hot water setpoint
-* Domestic hot water reheating point
-* Heating curve ambient temperature (1 through 5; **works for Amber version 2.29 and higher**)
-* Heating curve water temperature (1 through 5; **works for Amber version 2.29 and higher**)
-* Cooling setpoint (for when cooling curve is not used)
-* Heating setpoint (for when heating curve is not used)
-* Minimum ambient temperature to start domestic hot water ECO mode
-* Circuit 1 maximum temperature
-* Circuit 1 minimum temperature
+* Delta T to stop heat pump (M1.01)
+* Delta T to restart heat pump (M1.02)
+* Delta T to lower compressor speed (M1.03)
+* Domestic hot water setpoint (M3.01)
+* Domestic hot water reheating point (M3.02)
+* Heating curve ambient temperature (1 through 5; M1.06-M1.10; **works for Amber version 2.29 and higher**)
+* Heating curve water temperature (1 through 5; M1.11-M1.15; **works for Amber version 2.29 and higher**)
+* Cooling setpoint (M1.04; for when cooling curve is not used)
+* Heating setpoint (M1.19; for when heating curve is not used)
+* Minimum ambient temperature to start domestic hot water ECO mode (M3.10)
+* Circuit 1 minimum temperature (M1.20)
+* Circuit 1 maximum temperature (M1.21)
 
 ### Dropdown value
 
