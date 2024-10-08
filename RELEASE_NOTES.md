@@ -26,3 +26,17 @@ Increased modbus command throttle for stability
 
 Added support for hardware Factory reset button introduced on PCB v2.3
 Update not needed when not using PCB v2.3
+
+## Version 1.3.0
+
+Changed type from sensor to numeric value for the heating curve fields (works for Amber version 2.29 and above)
+
+Added switch:
+- Use anti legionalle mode
+
+Added numbers:
+- Circuit 1 minimum temperature
+- Circuit 1 maximuim temperature
+
+Added select:
+- Working mode (options: Heating, Cooling, Domestic hot water, Auto)
