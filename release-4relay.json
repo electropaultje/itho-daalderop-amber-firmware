@@ -1,15 +1,15 @@
 {
-    "name": "Itho Daalderop Amber Control Module",
-    "version": "1.3.0",
-    "builds": [
-      {
-        "chipFamily": "ESP32",
-        "ota": {
-          "md5": "01d15b35b8baeb5f52c2cbdea0ab3e98",
-          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-3-0.bin",
-          "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-130",
-          "summary": "Added new input controls (including working mode) and changed heating curve from readonly to writable"
-        }
+  "name": "Itho Daalderop Amber Control Module",
+  "version": "1.4.0",
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "ota": {
+        "md5": "b09888962be1a859d23e3b218bd3c4f2",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-4-0.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-140",
+        "summary": "Fixed defrost state sensor and added smart grid readonly sensors"
       }
-    ]
-  }
+    }
+  ]
+}

@@ -40,3 +40,15 @@ Added numbers:
 
 Added select:
 - Working mode (options: Heating, Cooling, Domestic hot water, Auto)
+
+## Version 1.4.0
+
+Fixed defrost state binary sensor
+
+Added sensors:
+- SG decrease setpoint cooling
+- SG increase setpoint heating
+- SG increase setpoint domestic hot water
+
+Added binary sensor:
+- SG ready
