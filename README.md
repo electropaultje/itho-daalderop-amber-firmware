@@ -110,6 +110,9 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Average 1h ambient temperature
 * Average 4h ambient temperature
 * Average 24h ambient temperature
+* SG increase setpoint domestic hot water
+* SG decrease setpoint cooling
+* SG increase setpoint heating
 
 ### Readonly binary sensors (on / off)
 
@@ -121,6 +124,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Heating in progress
 * Cooling in progress
 * Water flow switch
+* SG ready
 
 ### Switches (on / off)
 

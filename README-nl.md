@@ -114,6 +114,9 @@ De namen van de sensoren zijn in het Engels.
 * Average 1h ambient temperature
 * Average 4h ambient temperature
 * Average 24h ambient temperature
+* SG increase setpoint domestic hot water
+* SG decrease setpoint cooling
+* SG increase setpoint heating
 
 ### Binaire sensoren (aan / uit, alleen lezen)
 
@@ -125,6 +128,7 @@ De namen van de sensoren zijn in het Engels.
 * Heating in progress
 * Cooling in progress
 * Water flow switch
+* SG ready
 
 ### Schakelaar (aan / uit)
 

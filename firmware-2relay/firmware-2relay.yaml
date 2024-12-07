@@ -1,14 +1,14 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: "1.3.0"
-  statistics_url: "https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D"
+  version: 1.4.0
+  statistics_url: https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D
 
 esphome:
   name: ${device_name}
   friendly_name: ${friendly_name}
   project:
-    name: "electropaultje.ithodaalderopAMBER"
+    name: electropaultje.ithodaalderopAMBER
     version: ${version}
   on_boot:
     priority: -100
@@ -34,8 +34,8 @@ ota:
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
-    ssid: "IthoDaalderop"
-    password: "ithodaalderop"
+    ssid: IthoDaalderop
+    password: ithodaalderop
 
 captive_portal:
 
@@ -91,9 +91,35 @@ dallas:
     update_interval: 15s
 
 sensor:
+  # Readonly parameters
+  - platform: modbus_controller
+    name: SG increase setpoint heating
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C    
+    address: 340
+    register_type: holding
+    value_type: S_WORD
+  - platform: modbus_controller
+    name: SG increase setpoint domestic hot water
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 375
+    register_type: holding
+    value_type: S_WORD
+  - platform: modbus_controller
+    name: SG decrease setpoint cooling
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 376
+    register_type: holding
+    value_type: S_WORD
+
   # Realtime sensors
   - platform: modbus_controller
-    name: "Software version"
+    name: Software version
     id: software_version
     address: 501
     register_type: holding
@@ -101,7 +127,7 @@ sensor:
     icon: mdi:database-outline
     entity_category: diagnostic
   - platform: modbus_controller
-    name: "Database version"
+    name: Database version
     id: database_version
     address: 502
     register_type: holding
@@ -109,7 +135,7 @@ sensor:
     icon: mdi:database-outline
     entity_category: diagnostic
   - platform: modbus_controller
-    name: "EEPROM version"
+    name: EEPROM version
     id: eeprom_version
     address: 503
     register_type: holding
@@ -117,7 +143,7 @@ sensor:
     icon: mdi:database-outline
     entity_category: diagnostic
   - platform: modbus_controller
-    name: "Software version outdoor unit"
+    name: Software version outdoor unit
     id: sofware_version_outdoor_unit
     address: 504
     register_type: holding
@@ -125,12 +151,12 @@ sensor:
     icon: mdi:database-outline
     entity_category: diagnostic
   - platform: modbus_controller
-    name: "Heat exchanger water outlet temperature"
-    device_class: "temperature"
+    name: Heat exchanger water outlet temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 505
     register_type: holding
     value_type: S_WORD
@@ -143,37 +169,37 @@ sensor:
             state: !lambda |-
               return x - id(heat_exchanger_water_inlet_temperature).state;
   - platform: modbus_controller
-    name: "Heat exchanger water inlet temperature"
+    name: Heat exchanger water inlet temperature
     id: heat_exchanger_water_inlet_temperature
-    device_class: "temperature"
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 506
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Indoor coil temperature"
-    device_class: "temperature"
+    name: Indoor coil temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 507
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Domestic hot water temperature"
-    device_class: "temperature"
+    name: Domestic hot water temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 508
     register_type: holding
     value_type: S_WORD
@@ -181,12 +207,12 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: "Heating/cooling temperature"
-    device_class: "temperature"
+    name: Heating/cooling temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 509
     register_type: holding
     value_type: S_WORD
@@ -194,12 +220,12 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: "Heating/cooling circuit 1 temperature"
-    device_class: "temperature"
+    name: Heating/cooling circuit 1 temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 510
     register_type: holding
     value_type: S_WORD
@@ -207,12 +233,12 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: "Heating/cooling circuit 2 temperature"
-    device_class: "temperature"
+    name: Heating/cooling circuit 2 temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 511
     register_type: holding
     value_type: S_WORD
@@ -221,29 +247,29 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: "Compressor working speed"
-    device_class: "frequency"
+    name: Compressor working speed
+    device_class: frequency
     accuracy_decimals: 0
-    state_class: "measurement"
-    unit_of_measurement: "Hz"
+    state_class: measurement
+    unit_of_measurement: Hz
     address: 515
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
-    name: "Expansion valve setting"
-    state_class: "measurement"
+    name: Expansion valve setting
+    state_class: measurement
     icon: mdi:pipe-valve
     address: 516
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
-    name: "Ambient temperature"
+    name: Ambient temperature
     id: ambient_temperature
-    device_class: "temperature"
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 517
     register_type: holding
     value_type: S_WORD
@@ -256,137 +282,137 @@ sensor:
           id: blink_light
           calling_component: Modbus
   - platform: modbus_controller
-    name: "Average 1h ambient temperature"
-    device_class: "temperature"
+    name: Average 1h ambient temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 518
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Average 4h ambient temperature"
-    device_class: "temperature"
+    name: Average 4h ambient temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 519
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Average 24h ambient temperature"
-    device_class: "temperature"
+    name: Average 24h ambient temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 520
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "High pressure"
-    device_class: "pressure"
+    name: High pressure
+    device_class: pressure
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "bar"
+    state_class: measurement
+    unit_of_measurement: bar
     address: 521
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Low pressure"
-    device_class: "pressure"
+    name: Low pressure
+    device_class: pressure
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "bar"
+    state_class: measurement
+    unit_of_measurement: bar
     address: 522
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Discharge temperature"
-    device_class: "temperature"
+    name: Discharge temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 523
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Suction temperature"
-    device_class: "temperature"
+    name: Suction temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 524
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Outdoor coil temperature"
-    device_class: "temperature"
+    name: Outdoor coil temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 525
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Fan speed"
-    device_class: "frequency"
+    name: Fan speed
+    device_class: frequency
     accuracy_decimals: 0
-    state_class: "measurement"
-    unit_of_measurement: "rpm"
-    icon: "mdi:fan"
+    state_class: measurement
+    unit_of_measurement: rpm
+    icon: mdi:fan
     address: 526
     register_type: holding
     value_type: S_WORD
     register_count: 2
   - platform: modbus_controller
-    name: "Running current"
-    device_class: "current"
+    name: Running current
+    device_class: current
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "A"
+    state_class: measurement
+    unit_of_measurement: A
     address: 528
     register_type: holding
     value_type: S_WORD
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: "Supply voltage"
-    device_class: "voltage"
+    name: Supply voltage
+    device_class: voltage
     accuracy_decimals: 0
-    state_class: "measurement"
-    unit_of_measurement: "V"
+    state_class: measurement
+    unit_of_measurement: V
     address: 529
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
-    name: "Inside temperature"
-    device_class: "temperature"
+    name: Inside temperature
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
-    icon: "mdi:thermometer"
+    state_class: measurement
+    unit_of_measurement: °C
+    icon: mdi:thermometer
     address: 531
     register_type: holding
     value_type: S_WORD
@@ -396,19 +422,19 @@ sensor:
   - platform: template
     name: Heat exchanger delta T
     id: heat_exchanger_delta_t
-    device_class: "temperature"
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "K"
-    icon: "mdi:delta"
+    state_class: measurement
+    unit_of_measurement: K
+    icon: mdi:delta
 
   - platform: uptime
     id: sensor_uptime
 
   - platform: template
     id: sensor_uptime_timestamp
-    name: "Uptime"
-    device_class: "timestamp"
+    name: Uptime
+    device_class: timestamp
     accuracy_decimals: 0
     update_interval: never
     lambda: |-
@@ -417,28 +443,28 @@ sensor:
       );
       return timestamp;
   - platform: template
-    name: "Calculated heating temperature"
+    name: Calculated heating temperature
     id: calculated_heating_temperature
-    device_class: "temperature"
+    device_class: temperature
     accuracy_decimals: 1
-    state_class: "measurement"
-    unit_of_measurement: "°C"
+    state_class: measurement
+    unit_of_measurement: °C
 
   - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
-    name: "WiFi signal dB"
+    name: WiFi signal dB
     id: wifi_signal_db
     update_interval: 20s
 
   - platform: pulse_counter
     pin: GPIO35
     name: Pulse meter
-    unit_of_measurement: "l/hr"
+    unit_of_measurement: l/hr
     filters:
       - lambda: return x / id(flow_sensor_calibration).state * 60;
       - delta: 1
     total:
       name: Total pulses
-      unit_of_measurement: "l"
+      unit_of_measurement: l
       filters:
         - lambda: return x / id(flow_sensor_calibration).state;
         - delta: 1
@@ -449,7 +475,7 @@ sensor:
 
   - platform: dallas
     name: Dallas temperature 1
-    icon: "mdi:thermometer"
+    icon: mdi:thermometer
     index: 0
     filters:
       - lambda: return x + id(dallas_1_offset).state;
@@ -461,7 +487,7 @@ sensor:
             sensor_number: 1
   - platform: dallas
     name: Dallas temperature 2
-    icon: "mdi:thermometer"
+    icon: mdi:thermometer
     index: 1
     filters:
       - lambda: return x + id(dallas_2_offset).state;
@@ -473,7 +499,7 @@ sensor:
             sensor_number: 2
   - platform: dallas
     name: Dallas temperature 3
-    icon: "mdi:thermometer"
+    icon: mdi:thermometer
     index: 2
     filters:
       - lambda: return x + id(dallas_3_offset).state;
@@ -485,49 +511,66 @@ sensor:
             sensor_number: 3
 
 binary_sensor:
+  # Readonly parameters
   - platform: modbus_controller
-    name: "Domestic hot water in progress"
+    name: SG ready
+    register_type: holding
+    address: 339
+    icon: mdi:transmission-tower
+    bitmask: 0x1
+    # web_server:
+    #   sorting_group_id: sorting_sg
+
+  # Realtime sensors
+  - platform: modbus_controller
+    name: Domestic hot water in progress
     icon: mdi:water-boiler
     register_type: holding
     address: 499
     bitmask: 0x8
   - platform: modbus_controller
-    name: "Heating in progress"
-    icon: "mdi:fire"
+    name: Heating in progress
+    icon: mdi:fire
     register_type: holding
     address: 499
     bitmask: 0x10
   - platform: modbus_controller
-    name: "Cooling in progress"
-    icon: "mdi:snowflake"
+    name: Cooling in progress
+    icon: mdi:snowflake
     register_type: holding
     address: 499
     bitmask: 0x20
   - platform: modbus_controller
-    name: "Defrost"
-    icon: "mdi:snowflake-alert"
+    name: Defrost
+    icon: mdi:snowflake-alert
     register_type: holding
     address: 530
+    bitmask: 0x1
+    force_new_range: true
   - platform: modbus_controller
-    name: "Water flow switch"
+    name: Water flow switch
     icon: mdi:waves
     register_type: holding
     address: 532
+    bitmask: 0x1
   - platform: modbus_controller
-    name: "Cooling switch"
-    icon: "mdi:snowflake"
+    name: Cooling switch
+    icon: mdi:snowflake
     register_type: holding
     address: 534
+    bitmask: 0x1
   - platform: modbus_controller
-    name: "Heating switch"
-    icon: "mdi:fire"
+    name: Heating switch
+    icon: mdi:fire
     register_type: holding
     address: 535
+    bitmask: 0x1
   - platform: modbus_controller
-    name: "Heating switch circuit 2"
-    icon: "mdi:fire"
+    name: Heating switch circuit 2
+    icon: mdi:fire
     register_type: holding
     address: 536
+    bitmask: 0x1
   - platform: gpio
     pin: 
       number: GPIO34
@@ -547,7 +590,7 @@ binary_sensor:
 time:
   - platform: homeassistant
     id: time_homeassistant
-    timezone: "Europe/Amsterdam"
+    timezone: Europe/Amsterdam
     on_time_sync:
       - component.update: sensor_uptime_timestamp
 
@@ -687,10 +730,10 @@ number:
 
   # Heating curve settings
   - platform: modbus_controller
-    name: "Heating curve ambient temperature 1"
+    name: Heating curve ambient temperature 1
     id: heating_curve_a1
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 31
     min_value: -25
     max_value: 35
@@ -701,9 +744,9 @@ number:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a2
-    name: "Heating curve ambient temperature 2"
+    name: Heating curve ambient temperature 2
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 32
     min_value: -25
     max_value: 35
@@ -714,9 +757,9 @@ number:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a3
-    name: "Heating curve ambient temperature 3"
+    name: Heating curve ambient temperature 3
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 33
     min_value: -25
     max_value: 35
@@ -727,9 +770,9 @@ number:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a4
-    name: "Heating curve ambient temperature 4"
+    name: Heating curve ambient temperature 4
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 34
     min_value: -25
     max_value: 35
@@ -740,9 +783,9 @@ number:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a5
-    name: "Heating curve ambient temperature 5"
+    name: Heating curve ambient temperature 5
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 35
     min_value: -25
     max_value: 35
@@ -752,10 +795,10 @@ number:
     on_value:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
-    name: "Heating curve water temperature 1"
+    name: Heating curve water temperature 1
     id: heating_curve_t1
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 36
     min_value: 7
     max_value: 55
@@ -765,10 +808,10 @@ number:
     on_value:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
-    name: "Heating curve water temperature 2"
+    name: Heating curve water temperature 2
     id: heating_curve_t2
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 37
     min_value: 7
     max_value: 55
@@ -778,10 +821,10 @@ number:
     on_value:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
-    name: "Heating curve water temperature 3"
+    name: Heating curve water temperature 3
     id: heating_curve_t3
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 38
     min_value: 7
     max_value: 55
@@ -791,10 +834,10 @@ number:
     on_value:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
-    name: "Heating curve water temperature 4"
+    name: Heating curve water temperature 4
     id: heating_curve_t4
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 39
     min_value: 7
     max_value: 55
@@ -804,10 +847,10 @@ number:
     on_value:
       - script.execute: calculate_heating_curve
   - platform: modbus_controller
-    name: "Heating curve water temperature 5"
+    name: Heating curve water temperature 5
     id: heating_curve_t5
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     address: 40
     min_value: 7
     max_value: 55
@@ -827,7 +870,7 @@ number:
     value_type: S_WORD
     mode: box
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     icon: mdi:water-thermometer-outline
 
   - platform: modbus_controller
@@ -840,7 +883,7 @@ number:
     value_type: S_WORD
     mode: box
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
   - platform: modbus_controller
     name: Circuit 1 minimum temperature
     modbus_controller_id: modbus_con
@@ -851,7 +894,7 @@ number:
     value_type: S_WORD
     mode: box
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
 
   - platform: modbus_controller
     name: Domestic hot water setpoint
@@ -861,7 +904,7 @@ number:
     min_value: 25
     max_value: 70
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     mode: box
     icon: mdi:water-thermometer-outline
   - platform: modbus_controller
@@ -872,7 +915,7 @@ number:
     min_value: 2
     max_value: 15
     device_class: temperature
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
     mode: box
     icon: mdi:water-thermometer-outline
   - platform: modbus_controller
@@ -886,7 +929,7 @@ number:
     mode: box
 
   - platform: template
-    name: "Flow sensor calibration"
+    name: Flow sensor calibration
     id: flow_sensor_calibration
     min_value: 1
     max_value: 1000
@@ -895,9 +938,9 @@ number:
     restore_value: true
     optimistic: true
     entity_category: config
-    unit_of_measurement: "pulses/l"
+    unit_of_measurement: pulses/l
   - platform: template
-    name: "Dallas temperature 1 offset"
+    name: Dallas temperature 1 offset
     id: dallas_1_offset
     min_value: -10.0
     max_value: 10.0
@@ -907,9 +950,9 @@ number:
     restore_value: true
     optimistic: true
     entity_category: config
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
   - platform: template
-    name: "Dallas temperature 2 offset"
+    name: Dallas temperature 2 offset
     id: dallas_2_offset
     min_value: -10.0
     max_value: 10.0
@@ -919,9 +962,9 @@ number:
     restore_value: true
     optimistic: true
     entity_category: config
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
   - platform: template
-    name: "Dallas temperature 3 offset"
+    name: Dallas temperature 3 offset
     id: dallas_3_offset
     min_value: -10.0
     max_value: 10.0
@@ -931,7 +974,7 @@ number:
     restore_value: true
     optimistic: true
     entity_category: config
-    unit_of_measurement: "°C"
+    unit_of_measurement: °C
   - platform: template
     id: relais_switch_changes
     min_value: 0
@@ -963,46 +1006,46 @@ number:
 
 select:
   - platform: modbus_controller
-    name: "Working mode"
+    name: Working mode
     address: 3
     value_type: S_WORD
     optionsmap:
-      "Heating": 1
-      "Cooling": 2
-      "Domestic hot water": 3
-      "Auto": 4
+      Heating: 1
+      Cooling: 2
+      Domestic hot water: 3
+      Auto: 4
     icon: mdi:cog-outline
     register_count: 2
   - platform: modbus_controller
-    name: "Pump speed heating"
+    name: Pump speed heating
     address: 214
     value_type: S_WORD
     optionsmap:
-      "High": 0
-      "Medium": 1
-      "Low": 2
+      High: 0
+      Medium: 1
+      Low: 2
     icon: mdi:pump
   - platform: modbus_controller
-    name: "Pump speed cooling"
+    name: Pump speed cooling
     address: 215
     value_type: S_WORD
     optionsmap:
-      "High": 0
-      "Medium": 1
-      "Low": 2
+      High: 0
+      Medium: 1
+      Low: 2
     icon: mdi:pump
   - platform: modbus_controller
-    name: "Pump speed domestic hot water"
+    name: Pump speed domestic hot water
     address: 216
     value_type: S_WORD
     optionsmap:
-      "High": 0
-      "Medium": 1
-      "Low": 2
+      High: 0
+      Medium: 1
+      Low: 2
     icon: mdi:pump
 
   - platform: template
-    name: "Yellow LED Status"
+    name: Yellow LED Status
     id: yellow_led_select
     optimistic: true
     restore_value: true
@@ -1025,7 +1068,7 @@ script:
               return id(connected_temperature_sensors).state < sensor_number;
           then:
             - number.set:
-                id: "connected_temperature_sensors"
+                id: connected_temperature_sensors
                 value: !lambda return sensor_number;
   - id: relay_light
     parameters:
