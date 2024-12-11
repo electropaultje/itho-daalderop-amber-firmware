@@ -1,7 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.4.0
+  version: 1.4.1
   statistics_url: https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D
 
 esphome:
@@ -642,6 +642,7 @@ switch:
     pin: GPIO22
     name: Relais 1
     icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
@@ -658,6 +659,7 @@ switch:
     pin: GPIO23
     name: Relais 2
     icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
@@ -674,6 +676,7 @@ switch:
     pin: GPIO26
     name: Relais 3
     icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
@@ -690,6 +693,7 @@ switch:
     pin: GPIO25
     name: Relais 4
     icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
