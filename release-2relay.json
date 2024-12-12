@@ -1,15 +1,15 @@
 {
-    "name": "Itho Daalderop Amber Control Module",
-    "version": "1.4.0",
-    "builds": [
-      {
-        "chipFamily": "ESP32",
-        "ota": {
-          "md5": "51ded553206ca9b8d4b5bd62de89865a",
-          "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-4-0.bin",
-          "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-140",
-          "summary": "Fixed defrost state sensor and added smart grid readonly sensors"
-        }
+  "name": "Itho Daalderop Amber Control Module",
+  "version": "1.4.1",
+  "builds": [
+    {
+      "chipFamily": "ESP32",
+      "ota": {
+        "md5": "b93e0f20c95fd9117c8256b962989ce3",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-4-1.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-141",
+        "summary": "Restore state of relais at startup"
       }
-    ]
-  }
+    }
+  ]
+}

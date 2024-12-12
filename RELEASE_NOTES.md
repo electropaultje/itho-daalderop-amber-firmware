@@ -36,7 +36,7 @@ Added switch:
 
 Added numbers:
 - Circuit 1 minimum temperature
-- Circuit 1 maximuim temperature
+- Circuit 1 maximum temperature
 
 Added select:
 - Working mode (options: Heating, Cooling, Domestic hot water, Auto)
@@ -52,3 +52,7 @@ Added sensors:
 
 Added binary sensor:
 - SG ready
+
+## Version 1.4.1
+
+Restore the last state of the relais at startup
