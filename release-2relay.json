@@ -1,14 +1,14 @@
 {
   "name": "Itho Daalderop Amber Control Module",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "builds": [
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "b93e0f20c95fd9117c8256b962989ce3",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-4-1.bin",
-        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-141",
-        "summary": "Restore state of relais at startup"
+        "md5": "9b910b1ee694afd25743d57b1c12a23d",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-4-2.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-142",
+        "summary": "Fix in automatic update component which crashed the module when no internet connection"
       }
     }
   ]

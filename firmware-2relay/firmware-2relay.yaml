@@ -1,12 +1,13 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.4.1
+  version: 1.4.2
   statistics_url: https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D
 
 esphome:
   name: ${device_name}
   friendly_name: ${friendly_name}
+  min_version: 2024.12.4
   project:
     name: electropaultje.ithodaalderopAMBER
     version: ${version}
@@ -29,7 +30,14 @@ api:
   reboot_timeout: 0s
 
 ota:
-  platform: esphome
+  platform: http_request
+
+update:
+  - platform: http_request
+    name: Firmware update
+    id: firmware_update
+    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-2relay.json
+    update_interval: 4h
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
@@ -1148,21 +1156,22 @@ script:
           condition:
             switch.is_on: allow_send_statistics
           then:
-            - http_request.post:
-                url: ${statistics_url}
-                json: |-
-                  root["amber_database_version"] = id(database_version).state;
-                  root["amber_eeprom_version"] = id(eeprom_version).state;
-                  root["amber_software_version"] = id(software_version).state;
-                  root["amber_software_version_outdoor"] = id(sofware_version_outdoor_unit).state;
-                  root["connected_temperature_sensors"] = id(connected_temperature_sensors).state;
-                  root["device_identifier"] = id(mac_address).state;
-                  root["firmware_version"] = "${version}";
-                  root["modbus_reads"] = id(modbus_reads).state;
-                  root["modbus_writes"] = id(modbus_writes).state;
-                  root["relais_switches"] = id(relais_switch_changes).state;
-                  root["uptime"] = id(sensor_uptime).state;
-                  root["relais"] = 2;
+            # - http_request.post:
+            #     url: ${statistics_url}
+            #     json: |-
+            #       root["amber_database_version"] = id(database_version).state;
+            #       root["amber_eeprom_version"] = id(eeprom_version).state;
+            #       root["amber_software_version"] = id(software_version).state;
+            #       root["amber_software_version_outdoor"] = id(sofware_version_outdoor_unit).state;
+            #       root["connected_temperature_sensors"] = id(connected_temperature_sensors).state;
+            #       root["device_identifier"] = id(mac_address).state;
+            #       root["firmware_version"] = "${version}";
+            #       root["latest_firmware_version"] = id(firmware_update).update_info.latest_version;
+            #       root["modbus_reads"] = id(modbus_reads).state;
+            #       root["modbus_writes"] = id(modbus_writes).state;
+            #       root["relais_switches"] = id(relais_switch_changes).state;
+            #       root["uptime"] = id(sensor_uptime).state;
+            #       root["relais"] = 2;
             - number.to_min: modbus_writes
             - number.to_min: modbus_reads
             - number.to_min: relais_switch_changes
