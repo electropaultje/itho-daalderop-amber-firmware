@@ -56,3 +56,7 @@ Added binary sensor:
 ## Version 1.4.1
 
 Restore the last state of the relais at startup
+
+## Version 1.4.2
+
+Updated ESPHome to version 2024.12.4 to fix an error in the update component which resulted in a crash
