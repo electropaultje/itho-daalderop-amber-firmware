@@ -1,7 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.4.2
+  version: 1.5.0
   statistics_url: https://ithodaalderopamber.azurewebsites.net/api/usage?code=K_0WheWwupwhoaILCP0ePrXs_pMzLVQnIU6UqoQLLOmlAzFuwWqICg%3D%3D
 
 esphome:
@@ -30,14 +30,7 @@ api:
   reboot_timeout: 0s
 
 ota:
-  platform: http_request
-
-update:
-  - platform: http_request
-    name: Firmware update
-    id: firmware_update
-    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-4relay.json
-    update_interval: 4h
+  platform: esphome
 
 wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
@@ -283,8 +276,6 @@ sensor:
     value_type: S_WORD
     filters:
       - multiply: 0.1
-    on_value:
-     - script.execute: calculate_heating_curve
     on_raw_value:
       - script.execute:
           id: blink_light
@@ -436,6 +427,49 @@ sensor:
     unit_of_measurement: K
     icon: mdi:delta
 
+  - platform: modbus_controller
+    name: Actual setpoint heating zone 1
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 703
+    register_type: holding
+    value_type: S_WORD
+    filters:
+      - multiply: 0.1  
+  - platform: modbus_controller
+    name: Actual setpoint heating zone 2
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 704
+    register_type: holding
+    value_type: S_WORD    
+    register_count: 10
+    filters:
+      - multiply: 0.1
+  - platform: modbus_controller
+    name: Actual setpoint cooling zone 1
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 714
+    register_type: holding
+    value_type: S_WORD
+    filters:
+      - multiply: 0.1  
+  - platform: modbus_controller
+    name: Actual setpoint cooling zone 2
+    device_class: temperature
+    state_class: measurement
+    unit_of_measurement: °C       
+    address: 715
+    register_type: holding
+    value_type: S_WORD    
+    filters:
+      - multiply: 0.1
+
+
   - platform: uptime
     id: sensor_uptime
 
@@ -450,13 +484,6 @@ sensor:
         id(time_homeassistant).utcnow().timestamp - id(sensor_uptime).state
       );
       return timestamp;
-  - platform: template
-    name: Calculated heating temperature
-    id: calculated_heating_temperature
-    device_class: temperature
-    accuracy_decimals: 1
-    state_class: measurement
-    unit_of_measurement: °C
 
   - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
     name: WiFi signal dB
@@ -640,6 +667,12 @@ switch:
     bitmask: 0x1
     icon: mdi:clock-outline
   - platform: modbus_controller
+    name: Reduced mode timer
+    register_type: holding
+    address: 110
+    bitmask: 0x1
+    icon: mdi:clock-outline
+  - platform: modbus_controller
     name: Domestic hot water ECO mode
     register_type: holding
     address: 135
@@ -784,8 +817,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a2
     name: Heating curve ambient temperature 2
@@ -797,8 +828,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a3
     name: Heating curve ambient temperature 3
@@ -810,8 +839,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a4
     name: Heating curve ambient temperature 4
@@ -823,8 +850,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     id: heating_curve_a5
     name: Heating curve ambient temperature 5
@@ -836,8 +861,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     name: Heating curve water temperature 1
     id: heating_curve_t1
@@ -849,8 +872,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     name: Heating curve water temperature 2
     id: heating_curve_t2
@@ -862,8 +883,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     name: Heating curve water temperature 3
     id: heating_curve_t3
@@ -875,8 +894,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     name: Heating curve water temperature 4
     id: heating_curve_t4
@@ -888,8 +905,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
   - platform: modbus_controller
     name: Heating curve water temperature 5
     id: heating_curve_t5
@@ -901,8 +916,6 @@ number:
     register_type: holding
     value_type: S_WORD
     mode: box
-    on_value:
-      - script.execute: calculate_heating_curve
 
   - platform: modbus_controller
     name: Heating setpoint
@@ -1139,53 +1152,6 @@ script:
             - light.turn_on: led_yellow
             - delay: 250ms
             - light.turn_off: led_yellow
-  - id: calculate_heating_curve
-    then:
-      - sensor.template.publish:
-          id: calculated_heating_temperature
-          state: !lambda |-
-            float ta = id(ambient_temperature).state;
-            float tw1;
-            float tw2;
-            float ta1;
-            float ta2;
-            float rc;
-            float sp;
-            int selection;
-
-            if (ta < id(heating_curve_a2).state) {
-              tw1 = id(heating_curve_t1).state;
-              tw2 = id(heating_curve_t2).state;
-              ta1 = id(heating_curve_a1).state;
-              ta2 = id(heating_curve_a2).state;
-              selection = 1;
-            }
-            else if (ta < id(heating_curve_a3).state) {
-              tw1 = id(heating_curve_t2).state;
-              tw2 = id(heating_curve_t3).state;
-              ta1 = id(heating_curve_a2).state;
-              ta2 = id(heating_curve_a3).state;
-              selection = 2;
-            }
-            else if (ta < id(heating_curve_a4).state) {
-              tw1 = id(heating_curve_t3).state;
-              tw2 = id(heating_curve_t4).state;
-              ta1 = id(heating_curve_a3).state;
-              ta2 = id(heating_curve_a4).state;
-              selection = 3;
-            }
-            else {
-              tw1 = id(heating_curve_t4).state;
-              tw2 = id(heating_curve_t5).state;
-              ta1 = id(heating_curve_a4).state;
-              ta2 = id(heating_curve_a5).state;
-              selection = 4;
-            }
-
-            rc = ((tw2 - tw1) / (ta2 - ta1));
-            sp = tw1 - (rc * ta1);
-
-            return (ta * rc + sp);
   - id: send_usage_stats
     then:
       - if:

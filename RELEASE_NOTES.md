@@ -60,3 +60,19 @@ Restore the last state of the relais at startup
 ## Version 1.4.2
 
 Updated ESPHome to version 2024.12.4 to fix an error in the update component which resulted in a crash
+
+## Version 1.5.0
+
+This version retrieves the acutal setpoints from the Amber, instead of calculating themself. Note that the returned value is the fixed setpoint (without the heating/cooling curve) if the Amber is not currently working in the mode (so, when not heating, the actual setpoint heating will be the fixed setpoint as if the heating curve is not used).
+
+Added sensors:
+  - Actual setpoint heating zone 1
+  - Actual setpoint heating zone 2
+  - Actual setpoint cooling zone 1
+  - Actual setpoint cooling zone 2
+
+Added switch:
+  - Reduced mode timer
+
+**Removed sensor:**
+  - Calculated heating temperature  

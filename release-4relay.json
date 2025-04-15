@@ -1,14 +1,14 @@
 {
   "name": "Itho Daalderop Amber Control Module",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "builds": [
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "75a4b413973e37d330a911b22e7b8e2f",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-4-2.bin",
-        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-142",
-        "summary": "Fix in automatic update component which crashed the module when no internet connection"
+        "md5": "739ea2bab69a4ce4d085fa70ac4f54b0",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-5-0.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-150",
+        "summary": "Added actual setpoints"
       }
     }
   ]
