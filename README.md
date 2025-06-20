@@ -4,7 +4,7 @@
 
 ## Summary
 
-This repository contains the firmware for the *Itho Daalderop Amber Heat Pump control module*. This control module is a custom made hardware solution to control the Amber heat pump. The control module can be ordered [here](https://forms.gle/3R2AAtGyy7Cqq65Q9).
+This repository contains the firmware for the *Itho Daalderop Amber Heat Pump control module*. This control module is a custom made hardware solution to control the Amber heat pump. The control module can be ordered [here](https://electropaultje.nl/product/itho-daalderop-amber-control-module/).
 
 When connected, you have the ability to read out sensor values and control switches and numeric values. The complete list of sensors, switches and numeric values can be found [here](#amber-sensors-and-switches).
 
@@ -113,6 +113,11 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * SG increase setpoint domestic hot water
 * SG decrease setpoint cooling
 * SG increase setpoint heating
+* Actual setpoint heating zone 1 (*only a valid value when heating is active*)
+* Actual setpoint heating zone 2 (*only a valid value when heating is active*)
+* Actual setpoint cooling zone 1 (*only a valid value when cooling is active*)
+* Actual setpoint cooling zone 2 (*only a valid value when cooling is active*)
+
 
 ### Readonly binary sensors (on / off)
 
@@ -135,6 +140,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Use heating curve (M1.05)
 * Domestic hot water ECO mode (M3.09)
 * Use domestic hot water timer (M4.01)
+* Reduced mode timer (M5.04)
 * Use anti legionella mode (M6.01)
 
 ### Numeric values
@@ -160,8 +166,6 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 * Delta T  
   *Difference between Tui and Tuo*
-* Calculated heating temperature  
-  *Interpolated heating setpoint based on the heating ambient and water temperatures and the ambient temperature.*
 
 ### Configuration settings
 
@@ -171,9 +175,6 @@ When an update is available, this will be shown in Home Assistant (needed versio
   *Use to offset the connected temperature sensors when they need to be corrected because of calibration differences*
 * Yellow LED status  
   *Set the function of the yellow LED on the control module*
-* Allow anonymouse usage statistics  
-  *Allow once every six hours to send anonymized usage statistics (MAC address of the control module, firmware versions, number of connected temperature sensors, modbus reads and writes and state of the onboard memory).  
-  **No data is stored that can be linked to the installation!***
 
 ## ESPHome configuration
 

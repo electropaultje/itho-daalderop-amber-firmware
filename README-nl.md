@@ -4,7 +4,7 @@
 
 ## Samenvatting
 
-Deze repository bevat de firmware voor de *Itho Daalderop Amber Heat Pump control module*. Deze control module is een door ons ontwikkelde hardware oplossing waarmee Itho Daalderop Amber warmtepompen kunnen worden bestuurd. De control module kan [hier](https://forms.gle/3R2AAtGyy7Cqq65Q9) besteld worden.
+Deze repository bevat de firmware voor de *Itho Daalderop Amber Heat Pump control module*. Deze control module is een door ons ontwikkelde hardware oplossing waarmee Itho Daalderop Amber warmtepompen kunnen worden bestuurd. De control module kan [hier](https://electropaultje.nl/product/itho-daalderop-amber-control-module/) besteld worden.
 
 Zodra de control module is aangesloten bestaat de mogelijkheid om sensorwaarden uit te lezen en schakelaars en numerieke waarden in te stellen. De complete lijst met sensoren, schakelaars en numerieke waarden kan [hier](#amber-sensoren-en-schakelaars) gevonden worden.
 
@@ -117,6 +117,10 @@ De namen van de sensoren zijn in het Engels.
 * SG increase setpoint domestic hot water
 * SG decrease setpoint cooling
 * SG increase setpoint heating
+* Actual setpoint heating zone 1 (*only a valid value when heating is active*)
+* Actual setpoint heating zone 2 (*only a valid value when heating is active*)
+* Actual setpoint cooling zone 1 (*only a valid value when cooling is active*)
+* Actual setpoint cooling zone 2 (*only a valid value when cooling is active*)
 
 ### Binaire sensoren (aan / uit, alleen lezen)
 
@@ -139,6 +143,7 @@ De namen van de sensoren zijn in het Engels.
 * Use heating curve (M1.05)
 * Domestic hot water ECO mode (M3.09)
 * Use domestic hot water timer (M4.01)
+* Reduced mode timer (M5.04)
 * Use anti legionella mode (M6.01)
 
 ### Numerieke waarden
@@ -164,9 +169,6 @@ De namen van de sensoren zijn in het Engels.
 
 * Delta T  
   *Verschil tussen Tui en Tuo*
-* Calculated heating temperature  
-  *Geïnterpoleerd setpoint gebaseerd op de geconfigureerde stooklijn en de buitentemperatuur (ambient temperature)*
-
 
 ### Configuratie instellingen
 
@@ -176,11 +178,8 @@ De namen van de sensoren zijn in het Engels.
   *Gebruik deze instellingen om de aangesloten temperatuur sensoren correct te kalibreren*
 * Yellow LED status  
   *Stel de functie in van de gele LED op de control module*
-* Allow anonymouse usage statistics  
-  *Sta toe dat elke zes uur er anonieme gebruikersdata wordt verstuurd (MAC address van de control module, firmware versie, aantal aangesloten temperatuur sensoren, aantal modbus lees- en schrijfacties en de staat van het geheugen van de control module.  
-  **Er wordt geen data verstuurd die aan de intallatie of gebruiker valt te linken!***
 
-  ## ESPHome configuratie
+## ESPHome configuratie
 
-  De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden ([2 relais](/firmware-2relay/firmware-2relay.yaml), [4 relais](/firmware-4relay/firmware-4relay.yaml)). Zodra gebruik gemaakt wordt van een eigen configuratie zal bij een update de eigen configuratie weer overschreven worden.  
-  **Let op: Er wordt geen support geleverd op zelf aangebrachte wijzigingen.**
+De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden ([2 relais](/firmware-2relay/firmware-2relay.yaml), [4 relais](/firmware-4relay/firmware-4relay.yaml)). Zodra gebruik gemaakt wordt van een eigen configuratie zal bij een update de eigen configuratie weer overschreven worden.  
+**Let op: Er wordt geen support geleverd op zelf aangebrachte wijzigingen.**
