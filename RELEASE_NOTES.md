@@ -76,3 +76,7 @@ Added switch:
 
 **Removed sensor:**
   - Calculated heating temperature  
+
+## Version 1.6.0
+
+Prepared the installation for the Itho Daalderop change in communication protocol. All control modules should automatically update to the version with the current 'old' settings. If your Amber is updated there could be a problem in the communication and you must install the parity EVEN version.

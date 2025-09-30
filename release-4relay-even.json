@@ -5,8 +5,8 @@
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "112108454878c242fd189e2c2d36d2a0",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-6-0-none.bin",
+        "md5": "8a622006c663651fb858dc82584d03d2",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-6-0-even.bin",
         "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-160",
         "summary": "Added actual setpoints"
       }
