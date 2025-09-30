@@ -12,6 +12,8 @@ The device is based on ESPHome, this means it can be integrated in Home Assistan
 
 **Please be advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber. Reading of the values does not alter the schema.**
 
+**Currently Itho Daalderop is installing new software on Ambers. This can only be done locally. When this is done it is possible the control module will not communicate correctly anymore. In this case you will need to update the software with the firmware that ends with *-EVEN***
+
 ## Connections
 
 The module has several connections:
@@ -178,5 +180,8 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 ## ESPHome configuration
 
-The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay](/firmware-2relay/firmware-2relay.yaml), [4 relay](/firmware-4relay/firmware-4relay.yaml)).  
+The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).  
+
+The choice in parity depends on your Amber software version.
+
 **Note: no support is given on self made changes**
