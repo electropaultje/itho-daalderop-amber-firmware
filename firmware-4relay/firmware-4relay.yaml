@@ -7,7 +7,6 @@ substitutions:
 esphome:
   name: ${device_name}
   friendly_name: ${friendly_name}
-  min_version: 2024.12.4
   project:
     name: electropaultje.ithodaalderopAMBER
     version: ${version}
@@ -21,7 +20,7 @@ esphome:
 esp32:
   board: esp32dev
   framework:
-    type: arduino
+    type: esp-idf
 
 logger:
   level: INFO
@@ -40,10 +39,6 @@ wifi:
 
 captive_portal:
 
-external_components:
-  - source: github://esphome/esphome@2024.5.5
-    components: [ dallas ]
-
 status_led:
   pin:
     number: GPIO19
@@ -61,11 +56,11 @@ uart:
 
 modbus:
   flow_control_pin: GPIO14
+  send_wait_time: 1000ms
 
 modbus_controller:
   - id: modbus_con
     address: 0x01
-    command_throttle: 1000ms
     update_interval: 15s
     offline_skip_updates : 0
     on_command_sent:
@@ -87,11 +82,104 @@ light:
     id: led_yellow
     output: led_yellow_output
 
-dallas:
-  - pin: GPIO27
-    update_interval: 15s
+climate:
+  # Used with Tr temperature sensor, can be customized to use another sensor from Home Assistant.
+  - platform: thermostat
+    name: Amber thermostat
+    sensor: inside_temperature
+    cool_action:
+      - switch.turn_on: relay_cooling
+    heat_action:
+      - switch.turn_on: relay_heating
+    idle_action:
+      - switch.turn_off: relay_cooling
+      - switch.turn_off: relay_heating
+    set_point_minimum_differential: 4.0
+
+    startup_delay: true # Wait 15min after power cycle
+    min_cooling_off_time: 15min
+    min_cooling_run_time: 1h # Min 1h run
+    min_heating_off_time: 15min
+    min_heating_run_time: 1h # Min 1h run
+    min_idle_time: 15min
+    default_preset: Comfort
+
+    # Hysteresis
+    heat_deadband: 0.3
+    heat_overrun: 0.2
+
+    cool_deadband: 0.5
+    cool_overrun: 3.0
+    # Presets
+    preset:
+      - name: Comfort
+        default_target_temperature_low: 20.5 °C
+        default_target_temperature_high: 24 °C
+
+one_wire:
+  - platform: gpio
+    pin: GPIO27
 
 sensor:
+  - platform: modbus_controller
+    name: Outside start temperture frost protection first stage
+    register_type: holding
+    address: 158
+    value_type: S_WORD
+    device_class: temperature
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    state_class: measurement
+
+  - platform: modbus_controller
+    name: Outside start temperture frost protection second stage
+    register_type: holding
+    address: 159
+    value_type: S_WORD
+    device_class: temperature
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    state_class: measurement
+
+  - platform: modbus_controller
+    name: Outside stop temperture frost protection first stage
+    register_type: holding
+    address: 160
+    value_type: S_WORD
+    device_class: temperature
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    state_class: measurement
+
+  - platform: modbus_controller
+    name: Water start temperature frost protection second stage
+    register_type: holding
+    address: 161
+    value_type: S_WORD
+    device_class: temperature
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    state_class: measurement
+
+  - platform: modbus_controller
+    name: Water stop temperature frost protection second stage
+    register_type: holding
+    address: 162
+    register_count: 2
+    value_type: S_WORD
+    device_class: temperature
+    unit_of_measurement: °C
+    accuracy_decimals: 1
+    state_class: measurement
+
+  - platform: modbus_controller
+    id: installer_code
+    register_type: holding
+    internal: True
+    address: 164
+    value_type: S_WORD
+    state_class: measurement
+
   # Readonly parameters
   - platform: modbus_controller
     name: SG increase setpoint heating
@@ -99,6 +187,7 @@ sensor:
     state_class: measurement
     unit_of_measurement: °C    
     address: 340
+    register_count: 35
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
@@ -123,36 +212,62 @@ sensor:
     name: Software version
     id: software_version
     address: 501
+    skip_updates: 30
+    internal: True
+    force_new_range: True
     register_type: holding
     value_type: S_WORD
-    icon: mdi:database-outline
+    accuracy_decimals: 2
+    on_value: 
+      then:
+        - component.update: sw_version_template
+    filters:
+      - multiply: 0.01
+      - round: 2
+  - platform: modbus_controller
+    name: Software version extended
+    id: software_version_ex
+    internal: True
+    address: 502
+    accuracy_decimals: 0
+    skip_updates: 30
+    register_type: holding
+    value_type: S_WORD
     entity_category: diagnostic
+    on_value: 
+      then:
+        - component.update: sw_version_template
   - platform: modbus_controller
     name: Database version
     id: database_version
-    address: 502
-    register_type: holding
-    value_type: S_WORD
-    icon: mdi:database-outline
-    entity_category: diagnostic
-  - platform: modbus_controller
-    name: EEPROM version
-    id: eeprom_version
+    internal: True
     address: 503
+    skip_updates: 30
     register_type: holding
     value_type: S_WORD
-    icon: mdi:database-outline
-    entity_category: diagnostic
+    filters:
+      - multiply: 0.01
+      - round: 2
+    on_value: 
+      then:
+        - component.update: database_version_template
   - platform: modbus_controller
     name: Software version outdoor unit
     id: sofware_version_outdoor_unit
+    internal: True
     address: 504
+    skip_updates: 30
     register_type: holding
     value_type: S_WORD
-    icon: mdi:database-outline
-    entity_category: diagnostic
+    filters:
+      - multiply: 0.01
+      - round: 2
+    on_value: 
+      then:
+        - component.update: sw_version_outdoor_template
   - platform: modbus_controller
-    name: Heat exchanger water outlet temperature
+    name: Heat exchanger water outlet temperature (Tuo)
+    id: heat_exchanger_water_outlet_tuo_temperature
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -163,15 +278,9 @@ sensor:
     value_type: S_WORD
     filters:
       - multiply: 0.1
-    on_value:
-      then:
-        - sensor.template.publish:
-            id: heat_exchanger_delta_t
-            state: !lambda |-
-              return x - id(heat_exchanger_water_inlet_temperature).state;
   - platform: modbus_controller
-    name: Heat exchanger water inlet temperature
-    id: heat_exchanger_water_inlet_temperature
+    name: Heat exchanger water inlet temperature (Tui)
+    id: heat_exchanger_water_inlet_tui_temperature
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -183,7 +292,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Indoor coil temperature
+    name: Indoor coil temperature (Tup)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -195,7 +304,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Domestic hot water temperature
+    name: Domestic hot water temperature (Tw)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -208,7 +317,7 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: Heating/cooling temperature
+    name: Heating/cooling temperature (Tc)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -221,7 +330,7 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: Heating/cooling circuit 1 temperature
+    name: Heating/cooling circuit 1 temperature (Tv1)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -234,7 +343,7 @@ sensor:
       - multiply: 0.1
       - filter_out: -99
   - platform: modbus_controller
-    name: Heating/cooling circuit 2 temperature
+    name: Heating/cooling circuit 2 temperature (Tv2)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -249,6 +358,7 @@ sensor:
       - filter_out: -99
   - platform: modbus_controller
     name: Compressor working speed
+    id: compressor_frequency
     device_class: frequency
     accuracy_decimals: 0
     state_class: measurement
@@ -264,32 +374,26 @@ sensor:
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
-    name: Ambient temperature
+    name: Ambient temperature (Ta)
     id: ambient_temperature
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
-    unit_of_measurement: °C
-    icon: mdi:thermometer
     address: 517
     register_type: holding
     value_type: S_WORD
+    unit_of_measurement: °C
     filters:
       - multiply: 0.1
-    on_raw_value:
-      - script.execute:
-          id: blink_light
-          calling_component: Modbus
   - platform: modbus_controller
     name: Average 1h ambient temperature
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
-    unit_of_measurement: °C
-    icon: mdi:thermometer
     address: 518
     register_type: holding
     value_type: S_WORD
+    unit_of_measurement: °C
     filters:
       - multiply: 0.1
   - platform: modbus_controller
@@ -297,11 +401,10 @@ sensor:
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
-    unit_of_measurement: °C
-    icon: mdi:thermometer
     address: 519
     register_type: holding
     value_type: S_WORD
+    unit_of_measurement: °C
     filters:
       - multiply: 0.1
   - platform: modbus_controller
@@ -309,15 +412,14 @@ sensor:
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
-    unit_of_measurement: °C
-    icon: mdi:thermometer
     address: 520
     register_type: holding
     value_type: S_WORD
+    unit_of_measurement: °C
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: High pressure
+    name: High pressure (Pd)
     device_class: pressure
     accuracy_decimals: 1
     state_class: measurement
@@ -328,7 +430,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Low pressure
+    name: Low pressure (Ps)
     device_class: pressure
     accuracy_decimals: 1
     state_class: measurement
@@ -339,7 +441,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Discharge temperature
+    name: Discharge temperature (Td)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -351,7 +453,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Suction temperature
+    name: Suction temperature (Ts)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -363,7 +465,7 @@ sensor:
     filters:
       - multiply: 0.1
   - platform: modbus_controller
-    name: Outdoor coil temperature
+    name: Outdoor coil temperature (Tp)
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -376,7 +478,6 @@ sensor:
       - multiply: 0.1
   - platform: modbus_controller
     name: Fan speed
-    device_class: frequency
     accuracy_decimals: 0
     state_class: measurement
     unit_of_measurement: rpm
@@ -387,6 +488,7 @@ sensor:
     register_count: 2
   - platform: modbus_controller
     name: Running current
+    id: running_current
     device_class: current
     accuracy_decimals: 1
     state_class: measurement
@@ -394,19 +496,23 @@ sensor:
     address: 528
     register_type: holding
     value_type: S_WORD
+    entity_category: diagnostic
     filters:
       - multiply: 0.1
   - platform: modbus_controller
     name: Supply voltage
+    id: supply_voltage
     device_class: voltage
     accuracy_decimals: 0
     state_class: measurement
     unit_of_measurement: V
     address: 529
+    entity_category: diagnostic
     register_type: holding
     value_type: S_WORD
   - platform: modbus_controller
-    name: Inside temperature
+    name: Inside temperature (Tr)
+    id: inside_temperature
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
@@ -418,14 +524,90 @@ sensor:
     filters:
       - multiply: 0.1
       - filter_out: -99
+  - platform: modbus_controller
+    name: PWM waterpump signal
+    state_class: measurement
+    unit_of_measurement: "%"
+    register_type: holding
+    address: 537
+    entity_category: diagnostic
+    filters:
+      - multiply: 0.1
   - platform: template
     name: Heat exchanger delta T
     id: heat_exchanger_delta_t
     device_class: temperature
     accuracy_decimals: 1
     state_class: measurement
-    unit_of_measurement: K
+    unit_of_measurement: °C
     icon: mdi:delta
+    entity_category: diagnostic
+    lambda: |-
+        return id(heat_exchanger_water_outlet_tuo_temperature).state - id(heat_exchanger_water_inlet_tui_temperature).state;
+
+  - platform: template
+    name: Thermal power
+    id: thermal_power
+    accuracy_decimals: 0
+    device_class: power
+    state_class: measurement
+    unit_of_measurement: W
+    entity_category: diagnostic
+    lambda: |-
+        float qv = id(water_flow_rate).state / 60 / 1000;
+        float dT = id(heat_exchanger_delta_t).state;
+        float pw = qv * dT * 998 * 4190;
+        return fabs(pw);
+
+  - platform: template
+    name: Estimated COP
+    accuracy_decimals: 2
+    state_class: measurement
+    lambda: |-
+        float power = id(estimated_power_usage).state;
+        float thermalPower = id(thermal_power).state;
+        int compressorFrequency = id(compressor_frequency).state;
+        bool defrostActive = id(defrost_active).state;
+        if (compressorFrequency > 0 && !defrostActive)
+        {
+          return thermalPower / power;
+        }
+        else {
+          return 0;
+        }
+
+  - platform: template
+    name: Stop heating temperature boundary
+    device_class: temperature
+    accuracy_decimals: 1
+    state_class: measurement
+    unit_of_measurement: °C
+    lambda: |-
+        return id(setpoint_heating).state + id(delta_t_stop_heating_cooling).state;
+
+  - platform: template
+    name: Stop cooling temperature boundary
+    device_class: temperature
+    accuracy_decimals: 1
+    state_class: measurement
+    unit_of_measurement: °C
+    lambda: |-
+        return id(setpoint_cooling).state - id(delta_t_stop_heating_cooling).state;
+
+  - platform: template
+    id: estimated_power_usage
+    name: Estimated power usage
+    unit_of_measurement: "W"
+    state_class: measurement
+    device_class: power
+    lambda: |-
+         return id(running_current).state * id(supply_voltage).state;
+    accuracy_decimals: 0
+    update_interval: 5s
+    entity_category: diagnostic
+    filters:
+      - delta: 1
+          
 
   - platform: modbus_controller
     name: Actual setpoint heating zone 1
@@ -469,21 +651,13 @@ sensor:
     filters:
       - multiply: 0.1
 
-
   - platform: uptime
+    name: "Uptime"
     id: sensor_uptime
-
-  - platform: template
-    id: sensor_uptime_timestamp
-    name: Uptime
-    device_class: timestamp
-    accuracy_decimals: 0
-    update_interval: never
-    lambda: |-
-      static float timestamp = (
-        id(time_homeassistant).utcnow().timestamp - id(sensor_uptime).state
-      );
-      return timestamp;
+    update_interval: 60s
+    device_class: duration
+    unit_of_measurement: s
+    state_class: total_increasing
 
   - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
     name: WiFi signal dB
@@ -493,10 +667,11 @@ sensor:
   - platform: pulse_counter
     pin: GPIO35
     name: Pulse meter
-    unit_of_measurement: l/hr
+    id: water_flow_rate
+    device_class: volume_flow_rate
+    unit_of_measurement: L/min
     filters:
-      - lambda: return x / id(flow_sensor_calibration).state * 60;
-      - delta: 1
+      - lambda: return (x / id(flow_sensor_calibration).state);
     total:
       name: Total pulses
       unit_of_measurement: l
@@ -508,10 +683,10 @@ sensor:
           id: blink_light
           calling_component: Pulse
 
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 1
     icon: mdi:thermometer
-    index: 0
+    address: 0
     filters:
       - lambda: return x + id(dallas_1_offset).state;
       - delta: 0.1
@@ -520,10 +695,10 @@ sensor:
         - script.execute:
             id: update_temperature_count
             sensor_number: 1
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 2
     icon: mdi:thermometer
-    index: 1
+    address: 1
     filters:
       - lambda: return x + id(dallas_2_offset).state;
       - delta: 0.1
@@ -532,10 +707,10 @@ sensor:
         - script.execute:
             id: update_temperature_count
             sensor_number: 2
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 3
     icon: mdi:thermometer
-    index: 2
+    address: 2
     filters:
       - lambda: return x + id(dallas_3_offset).state;
       - delta: 0.1
@@ -577,6 +752,7 @@ binary_sensor:
     bitmask: 0x20
   - platform: modbus_controller
     name: Defrost
+    id: defrost_active
     icon: mdi:snowflake-alert
     register_type: holding
     address: 530
@@ -606,6 +782,405 @@ binary_sensor:
     register_type: holding
     address: 536
     bitmask: 0x1
+  - platform: modbus_controller
+    name: P01 - Main line current protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0001
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P02 - Compressor phase current protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0002
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P03 - IPM module protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0004
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P04 - Compressor oil return protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0008
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P05 - Compressor shut down due to abnormal high/low pressure
+    register_type: holding
+    address: 540
+    bitmask: 0x0010
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P06 - Compressor speed down due to abnormal high pressure
+    register_type: holding
+    address: 540
+    bitmask: 0x0020
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P07 - Compressor preheating
+    register_type: holding
+    address: 540
+    bitmask: 0x0040
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P08 - Compressor discharge temp. too high protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0080
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P09 - Outdoor evaporator coil temp. protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0100
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P10 - AC over high/low voltage protection
+    register_type: holding
+    address: 540
+    bitmask: 0x0200
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P11 - Compressor shut down due to too high/low outdoor temperature
+    register_type: holding
+    address: 540
+    bitmask: 0x0400
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P12 - Frequency limit compressor
+    register_type: holding
+    address: 540
+    bitmask: 0x0800
+    device_class: problem
+
+  - platform: modbus_controller
+    name: P13 - Low pressure condensor pressure switch
+    register_type: holding
+    address: 540
+    bitmask: 0x1000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F01 - Outdoor temp. sensor failure (Ta)
+    register_type: holding
+    address: 541
+    bitmask: 0x0020
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F02 - Outdoor evaporator coil temp. sensor failure (Tp)
+    register_type: holding
+    address: 541
+    bitmask: 0x0040
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F03 - Outdoor gas discharge temp. sensor failure (Td)
+    register_type: holding
+    address: 541
+    bitmask: 0x0080
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F04 - Outdoor gas return temp. sensor failure (Ts)
+    register_type: holding
+    address: 541
+    bitmask: 0x0100
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F05 - Evaporator pressure sensor failure (Ps)
+    register_type: holding
+    address: 541
+    bitmask: 0x0200
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F06 - Condenser pressure sensor failure (Pd)
+    register_type: holding
+    address: 541
+    bitmask: 0x0400
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F07 - Pressure switch failure
+    register_type: holding
+    address: 541
+    bitmask: 0x0800
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F09 - DC fan A failure
+    register_type: holding
+    address: 541
+    bitmask: 0x2000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F10 - DC fan B failure
+    register_type: holding
+    address: 541
+    bitmask: 0x4000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F11 - Evaporating pressure failure
+    register_type: holding
+    address: 541
+    bitmask: 0x8000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F12 - high pressure failure (Pd)
+    register_type: holding
+    address: 542
+    bitmask: 0x0001
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F13 - Room temperature sensor failure (Tr)
+    register_type: holding
+    address: 542
+    bitmask: 0x0002
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F14 - Sanitary hot water temperature sensor failure (Tw)
+    register_type: holding
+    address: 542
+    bitmask: 0x0004
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F15 - Cooling/heating water temperature sensor failure (Tc)
+    register_type: holding
+    address: 542
+    bitmask: 0x0008
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F16 - Water outlet temperature sensor failure (Tuo)
+    register_type: holding
+    address: 542
+    bitmask: 0x0010
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F17 - Water inlet temperature sensor failure (Tui)
+    register_type: holding
+    address: 542
+    bitmask: 0x0020
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F18 - Condenser coil temp. sensor failure (Tup)
+    register_type: holding
+    address: 542
+    bitmask: 0x0040
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F21 - Mixture valve 1 temperature sensor failure (Tv1)
+    register_type: holding
+    address: 542
+    bitmask: 0x0080
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F22 - Mixture valve 2 temperature sensor failure (Tv2)
+    register_type: holding
+    address: 542
+    bitmask: 0x0100
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F25 - Communication failure to indoor controller
+    register_type: holding
+    address: 542
+    bitmask: 0x0200
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F27 - Indoor PCB EEPROM failure
+    register_type: holding
+    address: 542
+    bitmask: 0x0400
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F28 - Water pump PWM signal feedback failure P0
+    register_type: holding
+    address: 542
+    bitmask: 0x0800
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F29 - Mixing valve 1 failure
+    register_type: holding
+    address: 542
+    bitmask: 0x1000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: F30 - Mixing valve 2 failure
+    register_type: holding
+    address: 542
+    bitmask: 0x2000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E01 - Communication failure
+    register_type: holding
+    address: 540
+    bitmask: 0x2000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E02 - Communication failure
+    register_type: holding
+    address: 540
+    bitmask: 0x4000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E03 - Compressor power failure
+    register_type: holding
+    address: 540
+    bitmask: 0x8000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E04 - Overcurrent protection compressor
+    register_type: holding
+    address: 541
+    bitmask: 0x0001
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E05 - Compressor driver failure
+    register_type: holding
+    address: 541
+    bitmask: 0x0002
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E06 - VDC unit failure
+    register_type: holding
+    address: 541
+    bitmask: 0x0004
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E07 - AC current failure
+    register_type: holding
+    address: 541
+    bitmask: 0x0008
+    device_class: problem
+
+  - platform: modbus_controller
+    name: E08 - EEPROM failure oudoor unit
+    register_type: holding
+    address: 541
+    bitmask: 0x0010
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S01 - Cooling anti freezing protection
+    register_type: holding
+    address: 542
+    bitmask: 0x4000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S02 - Low flow warning
+    register_type: holding
+    address: 542
+    bitmask: 0x8000
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S03 - Flow switch failurer
+    register_type: holding
+    address: 543
+    bitmask: 0x0001
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S04 - Communication failure indoor unit
+    register_type: holding
+    address: 543
+    bitmask: 0x0002
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S05 - Communication failure outdoor unit
+    register_type: holding
+    address: 543
+    bitmask: 0x0004
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S06 - Water outlet to low in cooling
+    register_type: holding
+    address: 543
+    bitmask: 0x0008
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S07 - Water outlet to high in heating
+    register_type: holding
+    address: 543
+    bitmask: 0x0010
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S08 - Deforst failure
+    register_type: holding
+    address: 543
+    bitmask: 0x0020
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S09 - Water outlet temp low during defrost
+    register_type: holding
+    address: 543
+    bitmask: 0x0040
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S10 - flow switch failure (3x)
+    register_type: holding
+    address: 543
+    bitmask: 0x0080
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S11 - Cooling anti freezing protection
+    register_type: holding
+    address: 543
+    bitmask: 0x0100
+    device_class: problem
+
+  - platform: modbus_controller
+    name: S13 - 4-way valve failure
+    register_type: holding
+    address: 543
+    bitmask: 0x0200
+    device_class: problem
+
   - platform: gpio
     pin: 
       number: GPIO34
@@ -626,8 +1201,6 @@ time:
   - platform: homeassistant
     id: time_homeassistant
     timezone: Europe/Amsterdam
-    on_time_sync:
-      - component.update: sensor_uptime_timestamp
 
 switch:
   - platform: modbus_controller
@@ -681,70 +1254,72 @@ switch:
 
   - platform: gpio
     pin: GPIO22
-    name: Relais 1
+    name: Relay heating
+    id: relay_heating
     icon: mdi:electric-switch
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
-        calling_component: Relais 1
+        calling_component: Relay heating
         relais_state: on
     - number.increment: relais_switch_changes
     on_turn_off:
     - script.execute:
         id: relay_light
-        calling_component: Relais 1
+        calling_component: Relay heating
         relais_state: off
     - number.increment: relais_switch_changes
   - platform: gpio
     pin: GPIO23
-    name: Relais 2
+    name: Relay cooling
+    id: relay_cooling
     icon: mdi:electric-switch
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
-    - script.execute:
+     - script.execute:
         id: relay_light
-        calling_component: Relais 2
+        calling_component: Relay cooling
         relais_state: on
-    - number.increment: relais_switch_changes
+     - number.increment: relais_switch_changes
     on_turn_off:
-    - script.execute:
+     - script.execute:
         id: relay_light
-        calling_component: Relais 2
+        calling_component: Relay cooling
         relais_state: off
-    - number.increment: relais_switch_changes
+     - number.increment: relais_switch_changes
   - platform: gpio
     pin: GPIO26
-    name: Relais 3
+    name: Relay 3
     icon: mdi:electric-switch
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
-        calling_component: Relais 3
+        calling_component: Relay 3
         relais_state: on
     - number.increment: relais_switch_changes
     on_turn_off:
     - script.execute:
         id: relay_light
-        calling_component: Relais 3
+        calling_component: Relay 3
         relais_state: off
     - number.increment: relais_switch_changes
   - platform: gpio
     pin: GPIO25
-    name: Relais 4
+    name: Relay 4
     icon: mdi:electric-switch
     restore_mode: RESTORE_DEFAULT_OFF
     on_turn_on:
     - script.execute:
         id: relay_light
-        calling_component: Relais 4
+        calling_component: Relay 4
         relais_state: on
     - number.increment: relais_switch_changes
     on_turn_off:
     - script.execute:
         id: relay_light
-        calling_component: Relais 4
+        calling_component: Relay 4
         relais_state: off
     - number.increment: relais_switch_changes
 
@@ -765,15 +1340,50 @@ button:
 
 number:
   - platform: modbus_controller
+    name: Outside temperature start heating
+    register_type: holding
+    address: 10
+    value_type: S_WORD
+    entity_category: config
+    device_class: temperature
+    unit_of_measurement: °C
+    min_value: -10
+    max_value: 25
+
+  - platform: modbus_controller
+    name: Outside temperature start cooling
+    register_type: holding
+    address: 11
+    value_type: S_WORD
+    entity_category: config
+    device_class: temperature
+    unit_of_measurement: °C
+    min_value: 20
+    max_value: 53
+
+  - platform: modbus_controller
+    name: Duration min. compressor speed
+    register_type: holding
+    address: 12
+    value_type: S_WORD
+    entity_category: config
+    unit_of_measurement: Min
+    min_value: 5
+    max_value: 180
+
+  - platform: modbus_controller
     name: Delta T to stop HP
+    id: delta_t_stop_heating_cooling
     modbus_controller_id: modbus_con
     address: 26
     min_value: 1
     max_value: 5
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
-    icon: mdi:water-thermometer-outline
+    device_class: temperature
+    unit_of_measurement: °C
   - platform: modbus_controller
     name: Delta T to restart HP
     modbus_controller_id: modbus_con
@@ -782,8 +1392,10 @@ number:
     max_value: 10
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
-    icon: mdi:water-thermometer-outline
+    device_class: temperature
+    unit_of_measurement: °C
   - platform: modbus_controller
     name: Delta T to lower compressor speed
     modbus_controller_id: modbus_con
@@ -792,18 +1404,23 @@ number:
     max_value: 10
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
-    icon: mdi:water-thermometer-outline
+    device_class: temperature
+    unit_of_measurement: °C
   - platform: modbus_controller
     name: Cooling setpoint
+    id: setpoint_cooling
     modbus_controller_id: modbus_con
     address: 29
     min_value: 12
     max_value: 25
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
-    icon: mdi:water-thermometer-outline
+    device_class: temperature
+    unit_of_measurement: °C
 
   # Heating curve settings
   - platform: modbus_controller
@@ -816,6 +1433,7 @@ number:
     max_value: 35
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     id: heating_curve_a2
@@ -827,6 +1445,7 @@ number:
     max_value: 35
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     id: heating_curve_a3
@@ -838,6 +1457,7 @@ number:
     max_value: 35
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     id: heating_curve_a4
@@ -849,6 +1469,7 @@ number:
     max_value: 35
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     id: heating_curve_a5
@@ -860,6 +1481,7 @@ number:
     max_value: 35
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     name: Heating curve water temperature 1
@@ -871,6 +1493,7 @@ number:
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     name: Heating curve water temperature 2
@@ -882,6 +1505,7 @@ number:
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     name: Heating curve water temperature 3
@@ -893,6 +1517,7 @@ number:
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     name: Heating curve water temperature 4
@@ -904,6 +1529,7 @@ number:
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
   - platform: modbus_controller
     name: Heating curve water temperature 5
@@ -915,16 +1541,19 @@ number:
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
 
   - platform: modbus_controller
     name: Heating setpoint
+    id: setpoint_heating
     modbus_controller_id: modbus_con
     address: 44
     min_value: 20
     max_value: 55
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
     device_class: temperature
     unit_of_measurement: °C
@@ -938,6 +1567,7 @@ number:
     max_value: 75
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
     device_class: temperature
     unit_of_measurement: °C
@@ -949,6 +1579,7 @@ number:
     max_value: 75
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
     device_class: temperature
     unit_of_measurement: °C
@@ -958,6 +1589,7 @@ number:
     modbus_controller_id: modbus_con
     address: 64
     value_type: S_WORD
+    entity_category: config
     min_value: 25
     max_value: 70
     device_class: temperature
@@ -969,6 +1601,7 @@ number:
     modbus_controller_id: modbus_con
     address: 65
     value_type: S_WORD
+    entity_category: config
     min_value: 2
     max_value: 15
     device_class: temperature
@@ -983,7 +1616,10 @@ number:
     max_value: 43
     register_type: holding
     value_type: S_WORD
+    entity_category: config
     mode: box
+    device_class: temperature
+    unit_of_measurement: °C
 
   - platform: template
     name: Flow sensor calibration
@@ -1111,10 +1747,10 @@ select:
       - "Off"
       - Modbus
       - Pulse
-      - Relais 1
-      - Relais 2
-      - Relais 3
-      - Relais 4
+      - Relay heating
+      - Relay cooling
+      - Relay 3
+      - Relay 4
 
 script:
   - id: update_temperature_count
@@ -1182,6 +1818,34 @@ text_sensor:
   - platform: wifi_info
     mac_address:
       id: mac_address
+  - platform: template
+    id: sw_version_template
+    icon: mdi:database-outline
+    entity_category: diagnostic
+    name: "Software version"
+    lambda: |-
+      return esphome::str_sprintf("V%.2f-T%.0f", id(software_version).state, id(software_version_ex).state);
+  - platform: template
+    id: sw_version_outdoor_template
+    icon: mdi:database-outline
+    entity_category: diagnostic
+    name: "Outdoor software version"
+    lambda: |-
+      return esphome::str_sprintf("%.2f", id(sofware_version_outdoor_unit).state);
+  - platform: template
+    id: database_version_template
+    icon: mdi:database-outline
+    entity_category: diagnostic
+    name: "Database version"
+    lambda: |-
+      return esphome::str_sprintf("%.2f", id(database_version).state);
+  - platform: template
+    entity_category: diagnostic
+    icon: mdi:security
+    name: "Installer code"
+    lambda: |-
+      return esphome::str_sprintf("%.0f", id(installer_code).state);
+  
 
 web_server:
   port: 80
