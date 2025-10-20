@@ -1,13 +1,13 @@
 {
   "name": "Itho Daalderop Amber Control Module",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "builds": [
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "9c38ecbb8b1525f1bdbdaea5345092c6",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-6-0-even.bin",
-        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-160",
+        "md5": "d3186b9d195e99c3a350e36fa31a57a3",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-7-0-even.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-170",
         "summary": "Added actual setpoints"
       }
     }
