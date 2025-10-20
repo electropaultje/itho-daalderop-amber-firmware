@@ -80,3 +80,9 @@ Added switch:
 ## Version 1.6.0
 
 Prepared the installation for the Itho Daalderop change in communication protocol. All control modules should automatically update to the version with the current 'old' settings. If your Amber is updated there could be a problem in the communication and you must install the parity EVEN version.
+
+## Version 1.7.0
+
+Added fault codes
+Grouped entities in ESPHome web interface
+Added two buttons to flash firmware for EVEN and NONE parity communication

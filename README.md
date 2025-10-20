@@ -132,6 +132,7 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Cooling in progress
 * Water flow switch
 * SG ready
+* Fault codes
 
 ### Switches (on / off)
 
@@ -182,6 +183,6 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).  
 
-The choice in parity depends on your Amber software version.
+The choice in parity depends on your Amber software version. There are two buttons available in the web interface which can be used to flash the firmware based on the needed parity settings.
 
 **Note: no support is given on self made changes**
