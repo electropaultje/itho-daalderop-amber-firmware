@@ -1,14 +1,14 @@
 {
   "name": "Itho Daalderop Amber Control Module",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "builds": [
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "2b21a4209701bb4392f9cb6c34488205",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-7-0-even.bin",
-        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-170",
-        "summary": "Added actual setpoints"
+        "md5": "aa993f272f1550ec2bc9d279edf86b7a",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-4relay/version-1-7-1-even.bin",
+        "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-171",
+        "summary": "Updated to latest ESPHome version"
       }
     }
   ]

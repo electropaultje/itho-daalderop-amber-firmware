@@ -1,12 +1,12 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.7.0
+  version: 1.7.1
 
 esphome:
   name: ${device_name}
   friendly_name: ${friendly_name}
-  min_version: 2024.12.4
+  min_version: 2025.11.0
   project:
     name: electropaultje.ithodaalderopAMBER
     version: ${version}
@@ -32,10 +32,6 @@ wifi:
     password: ithodaalderop
 
 captive_portal:
-
-external_components:
-  - source: github://esphome/esphome@2024.5.5
-    components: [ dallas ]
 
 status_led:
   pin:
@@ -68,9 +64,9 @@ light:
     id: led_yellow
     output: led_yellow_output
 
-dallas:
-  - pin: GPIO27
-    update_interval: 15s
+one_wire:
+  - platform: gpio
+    pin: GPIO27
 
 sensor:
   # Readonly parameters
@@ -510,24 +506,27 @@ sensor:
           id: blink_light
           calling_component: Pulse
 
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 1
     icon: mdi:thermometer
     index: 0
+    update_interval: 15s
     filters:
       - lambda: return x + id(dallas_1_offset).state;
       - delta: 0.1
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 2
     icon: mdi:thermometer
     index: 1
+    update_interval: 15s
     filters:
       - lambda: return x + id(dallas_2_offset).state;
       - delta: 0.1
-  - platform: dallas
+  - platform: dallas_temp
     name: Dallas temperature 3
     icon: mdi:thermometer
     index: 2
+    update_interval: 15s
     filters:
       - lambda: return x + id(dallas_3_offset).state;
       - delta: 0.1

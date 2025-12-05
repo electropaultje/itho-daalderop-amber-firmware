@@ -86,3 +86,8 @@ Prepared the installation for the Itho Daalderop change in communication protoco
 Added fault codes
 Grouped entities in ESPHome web interface
 Added two buttons to flash firmware for EVEN and NONE parity communication
+
+## Version 1.7.1
+
+Updated to latest version of ESPHome
+Changed temperature sensors to make use of OneWire library instead of deprecated Dallas library
