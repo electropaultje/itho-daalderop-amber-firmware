@@ -1,1 +1,3 @@
 /.vscode
+/yaml/.esphome/
+/yaml/secrets.yaml

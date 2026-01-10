@@ -75,7 +75,7 @@ Added switch:
   - Reduced mode timer
 
 **Removed sensor:**
-  - Calculated heating temperature  
+  - Calculated heating temperature
 
 ## Version 1.6.0
 
@@ -86,3 +86,8 @@ Prepared the installation for the Itho Daalderop change in communication protoco
 Added fault codes
 Grouped entities in ESPHome web interface
 Added two buttons to flash firmware for EVEN and NONE parity communication
+
+## Version 1.8.0
+
+Updated to latest version of ESPHome
+Made changes to be able to use the V3 PCB hardware

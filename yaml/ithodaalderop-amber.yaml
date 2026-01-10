@@ -1,0 +1,271 @@
+substitutions:
+  device_name: ithodaalderop-amber
+  friendly_name: Itho Daalderop Amber Heat Pump Control Module
+  version: 1.8.0
+  uart_parity: NONE
+  pcb_version: v3
+  relays: 4
+
+  hardware_package_v2: !include packages/pcb-v2.yaml
+  hardware_package_v3: !include packages/pcb-v3.yaml
+  relay2_package: !include packages/relay2.yaml
+  relay4_package: !include packages/relay4.yaml
+
+esphome:
+  name: ${device_name}
+  friendly_name: ${friendly_name}
+  min_version: 2025.11.0
+  project:
+    name: electropaultje.ithodaalderopAMBER
+    version: ${version}
+
+packages:
+  amber: !include packages/amber.yaml
+  relay: ${relay2_package if relays == '2' else relay4_package}
+  hardware: ${hardware_package_v3 if pcb_version == 'v3' else hardware_package_v2}
+
+esp32:
+  board: esp32dev
+  framework:
+    type: esp-idf
+
+logger:
+  level: INFO
+
+api:
+  reboot_timeout: 0s
+
+ota:
+  - platform: http_request
+    id: ota_http_request
+  - platform: web_server
+
+update:
+  - platform: http_request
+    name: Firmware update
+    id: firmware_update
+    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-${pcb_version}-${relays}relay-${uart_parity|lower}.json
+
+wifi:
+  ap:
+    ssid: IthoDaalderop
+    password: ithodaalderop
+
+captive_portal:
+
+status_led:
+  pin:
+    number: GPIO19
+
+http_request:
+  id: http_request_component
+  useragent: esphome/device
+  timeout: 10s
+  verify_ssl: false
+
+uart:
+  baud_rate: 19200
+  rx_pin: GPIO32
+  tx_pin: GPIO33
+  parity: ${uart_parity}
+
+modbus_controller:
+  - id: modbus_con
+    address: 0x01
+    update_interval: 15s
+    offline_skip_updates : 0
+
+output:
+  - platform: gpio
+    id: led_yellow_output
+    pin: GPIO18
+
+light:
+  - platform: binary
+    id: led_yellow
+    output: led_yellow_output
+
+sensor:
+  - platform: uptime
+    id: sensor_uptime
+
+  - platform: template
+    id: sensor_uptime_timestamp
+    name: Uptime
+    device_class: timestamp
+    accuracy_decimals: 0
+    update_interval: never
+    lambda: |-
+      static float timestamp = (
+        id(time_sntp).utcnow().timestamp - id(sensor_uptime).state
+      );
+      return timestamp;
+
+  - platform: wifi_signal # Reports the WiFi signal strength/RSSI in dB
+    name: WiFi signal dB
+    id: wifi_signal_db
+    update_interval: 20s
+
+  - platform: pulse_counter
+    pin: GPIO35
+    name: Pulse meter
+    unit_of_measurement: l/hr
+    filters:
+      - lambda: return x / id(flow_sensor_calibration).state * 60;
+      - delta: 1
+    total:
+      name: Total pulses
+      unit_of_measurement: l
+      filters:
+        - lambda: return x / id(flow_sensor_calibration).state;
+        - delta: 1
+    on_value:
+      - script.execute:
+          id: blink_light
+          calling_component: Pulse
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO34
+      inverted: true
+    id: factory_reset_pin
+    on_click:
+      then:
+        - repeat:
+            count: 5
+            then:
+              - light.turn_on: led_yellow
+              - delay: 200ms
+              - light.turn_off: led_yellow
+              - delay: 200ms
+        - button.press: button_factory_reset
+
+time:
+  - platform: sntp
+    id: time_sntp
+    timezone: Europe/Amsterdam
+    on_time_sync:
+      - component.update: sensor_uptime_timestamp
+
+button:
+  - platform: restart
+    name: Restart control module
+  - platform: factory_reset
+    id: button_factory_reset
+    name: Factory reset control module
+  - platform: template
+    id: flash_firmware_even
+    name: Flash latest firmware (EVEN)
+    entity_category: config
+    on_press:
+      - ota.http_request.flash:
+          md5_url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-even.md5
+          url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-even.bin
+  - platform: template
+    id: flash_firmware_none
+    name: Flash latest firmware (NONE)
+    entity_category: config
+    on_press:
+      - ota.http_request.flash:
+          md5_url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-none.md5
+          url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-none.bin
+
+number:
+  - platform: template
+    name: Flow sensor calibration
+    id: flow_sensor_calibration
+    min_value: 1
+    max_value: 1000
+    mode: box
+    step: 1
+    restore_value: true
+    optimistic: true
+    entity_category: config
+    unit_of_measurement: pulses/l
+  - platform: template
+    name: Dallas temperature 1 offset
+    id: dallas_1_offset
+    min_value: -10.0
+    max_value: 10.0
+    initial_value: 0
+    mode: box
+    step: 0.1
+    restore_value: true
+    optimistic: true
+    entity_category: config
+    unit_of_measurement: °C
+  - platform: template
+    name: Dallas temperature 2 offset
+    id: dallas_2_offset
+    min_value: -10.0
+    max_value: 10.0
+    initial_value: 0
+    mode: box
+    step: 0.1
+    restore_value: true
+    optimistic: true
+    entity_category: config
+    unit_of_measurement: °C
+  - platform: template
+    name: Dallas temperature 3 offset
+    id: dallas_3_offset
+    min_value: -10.0
+    max_value: 10.0
+    initial_value: 0
+    mode: box
+    step: 0.1
+    restore_value: true
+    optimistic: true
+    entity_category: config
+    unit_of_measurement: °C
+
+script:
+  - id: relay_light
+    parameters:
+      calling_component: string
+      relais_state: bool
+    then:
+      - if:
+          condition:
+            lambda: return id(yellow_led_select).current_option() == calling_component;
+          then:
+            - light.control:
+                id: led_yellow
+                state: !lambda return relais_state;
+  - id: blink_light
+    parameters:
+      calling_component: string
+    then:
+      - if:
+          condition:
+            lambda: return id(yellow_led_select).current_option() == calling_component;
+          then:
+            - light.turn_on: led_yellow
+            - delay: 250ms
+            - light.turn_off: led_yellow
+
+text_sensor:
+  - platform: wifi_info
+    mac_address:
+      id: mac_address
+
+web_server:
+  port: 80
+  version: 3
+  sorting_groups:
+    - id: fault_codes
+      name: Fault codes
+      sorting_weight: 100
+    - id: relays
+      name: Relays
+      sorting_weight: 4
+    - id: heating_cooling
+      name: Heating/Cooling
+      sorting_weight: 1
+    - id: smart_grid
+      name: Smart Grid
+      sorting_weight: 3
+    - id: domestic_hot_water
+      name: Domestic Hot Water
+      sorting_weight: 2

@@ -1,0 +1,46 @@
+modbus:
+  - id: modbus_component
+    send_wait_time: 1000ms
+    flow_control_pin: GPIO21
+
+one_wire:
+  - id: one_wire_1
+    platform: gpio
+    pin: GPIO4
+  - id: one_wire_2
+    platform: gpio
+    pin:
+      number: 5
+      ignore_strapping_warning: true
+  - id: one_wire_3
+    platform: gpio
+    pin: GPIO27
+
+sensor:
+  - platform: dallas_temp
+    id: temperature_sensor_1
+    name: Dallas temperature 1
+    one_wire_id: one_wire_1
+    icon: mdi:thermometer
+    update_interval: 15s
+    filters:
+      - lambda: return x + id(dallas_1_offset).state;
+      - delta: 0.1
+  - platform: dallas_temp
+    id: temperature_sensor_2
+    name: Dallas temperature 2
+    one_wire_id: one_wire_2
+    icon: mdi:thermometer
+    update_interval: 15s
+    filters:
+      - lambda: return x + id(dallas_2_offset).state;
+      - delta: 0.1
+  - platform: dallas_temp
+    id: temperature_sensor_3
+    name: Dallas temperature 3
+    one_wire_id: one_wire_3
+    icon: mdi:thermometer
+    update_interval: 15s
+    filters:
+      - lambda: return x + id(dallas_3_offset).state;
+      - delta: 0.1

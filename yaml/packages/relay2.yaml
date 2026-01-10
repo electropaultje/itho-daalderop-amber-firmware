@@ -1,0 +1,49 @@
+switch:
+  - platform: gpio
+    pin: GPIO22
+    name: Relais 1
+    icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    web_server:
+      sorting_group_id: relays
+    on_turn_on:
+    - script.execute:
+        id: relay_light
+        calling_component: Relais 1
+        relais_state: on
+    on_turn_off:
+    - script.execute:
+        id: relay_light
+        calling_component: Relais 1
+        relais_state: off
+  - platform: gpio
+    pin: GPIO23
+    name: Relais 2
+    icon: mdi:electric-switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    web_server:
+      sorting_group_id: relays
+    on_turn_on:
+    - script.execute:
+        id: relay_light
+        calling_component: Relais 2
+        relais_state: on
+    on_turn_off:
+    - script.execute:
+        id: relay_light
+        calling_component: Relais 2
+        relais_state: off
+
+select:
+  - platform: template
+    name: Yellow LED Status
+    id: yellow_led_select
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    options:
+      - "Off"
+      - Modbus
+      - Pulse
+      - Relais 1
+      - Relais 2

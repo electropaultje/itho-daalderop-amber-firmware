@@ -5,8 +5,8 @@
     {
       "chipFamily": "ESP32",
       "ota": {
-        "md5": "818533508e791aa73890079b16ff66b5",
-        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-8-0-v2-none.bin",
+        "md5": "e14ed00cb609912da1980cde84685839",
+        "path": "/electropaultje/itho-daalderop-amber-firmware/main/firmware-2relay/version-1-8-0-v3-none.bin",
         "release_url": "https://github.com/electropaultje/itho-daalderop-amber-firmware/blob/main/RELEASE_NOTES.md#version-180",
         "summary": "Updates for V3 PCB"
       }
