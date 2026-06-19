@@ -1,7 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.8.0
+  version: 1.9.0
   uart_parity: NONE
   pcb_version: v3
   relays: 4
