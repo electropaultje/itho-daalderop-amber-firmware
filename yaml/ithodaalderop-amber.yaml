@@ -64,6 +64,7 @@ http_request:
   verify_ssl: false
 
 uart:
+  id: uart_component
   baud_rate: 19200
   rx_pin: GPIO32
   tx_pin: GPIO33
@@ -269,3 +270,15 @@ web_server:
     - id: domestic_hot_water
       name: Domestic Hot Water
       sorting_weight: 2
+
+select:
+  - id: uart_parity
+    name: UART Parity
+    platform: template
+    options:
+      - "EVEN"
+      - "NONE"
+    initial_option: "NONE"
+    optimistic: true
+    restore_value: true
+    entity_category: config
