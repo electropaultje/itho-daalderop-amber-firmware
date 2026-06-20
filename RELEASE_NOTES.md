@@ -91,3 +91,18 @@ Added two buttons to flash firmware for EVEN and NONE parity communication
 
 Updated to latest version of ESPHome
 Made changes to be able to use the V3 PCB hardware
+
+## Version 1.9.0
+Updated to latest version of ESPHome (2026.6.1)
+
+Added config option for UART parity
+
+**BREAKING** Renamed sensors because of deprecated
+names:
+- Heating/cooling temperature - > Heating cooling temperature
+- Heating/cooling circuit 1 temperature -> Heating cooling circuit 1 temperature
+- Heating/cooling circuit 2 temperature -> Heating cooling circuit 2 temperature
+- P05 - Compressor shut down due to abnormal high/low pressure -> P05 - Compressor shut down due to abnormal high or low pressure
+- P10 - AC over high/low voltage protection - > P10 - AC over high or low voltage protection
+- P11 - Compressor shut down due to too high/low outdoor temperature -> P11 - Compressor shut down due to too highor low outdoor temperature
+- F15 - Cooling/heating water temperature sensor failure (Tc) -> F15 - Cooling heating water temperature sensor failure (Tc)
