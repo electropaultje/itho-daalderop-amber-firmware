@@ -51,10 +51,10 @@ When using the connection kit, A is the red wire and should be connected to the 
 
 The control module comes preinstalled with the latest software. When first powered on the device must be connected to your personal WiFi network. To do this follow the following steps:
 
-1. Connect your phone to the broadcasted network *IthoDaalderop*, use the password *ithodaalderop*. You can also scan the following QR code:  
+1. Connect your phone to the broadcasted network *IthoDaalderop*, use the password *ithodaalderop*. You can also scan the following QR code:
 ![qr](/images/qr-wifi.png)
-1. A portal should open in which you can select the correct WiFi network and enter the password.  
-If this portal does not open automatically, open a browser and go to the address [192.168.4.1](http://192.168.4.1/)  
+1. A portal should open in which you can select the correct WiFi network and enter the password.
+If this portal does not open automatically, open a browser and go to the address [192.168.4.1](http://192.168.4.1/)
 ![Captive portal](/images/captive_portal-ui.png)
 1. Select the correct network and enter the password if needed
 1. Press Save
@@ -73,14 +73,14 @@ By clicking on *Check it out* the Integration page will be openend.
 
 Clicking on *Configure* will start the installation in Home Assistant.
 
-Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
+Should the control module not be automatically detected by Home Assistant, you can [manually install it](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).
 Use the following details to install the control module:
 
 ![ESPHome configuration](/images/hass-config-esphome-en.png)
 
 ## Firmware updates
 
-When an update is available, this will be shown in Home Assistant (needed version 2024.7.0 or later). 
+When an update is available, this will be shown in Home Assistant (needed version 2024.7.0 or later).
 
 ![Update available](/images/hass-update-device-en.png)
 
@@ -93,12 +93,12 @@ When an update is available, this will be shown in Home Assistant (needed versio
 * Inside temperature (room temperature)
 * Ambient temperature (outside temperature)
 * Domestic hot water temperature (Tw)
-* Heating/cooling temperature (Tc)
+* Heating cooling temperature (Tc)
 * Heat exchanger water outlet temperature (Tuo)
 * Heat exchanger water inlet temperature (Tui)
 * Indoor coil temperature (Tup)
-* Heating/cooling circuit 1 temperature (Tv1)
-* Heating/cooling circuit 2 temperature (Tv2)
+* Heating cooling circuit 1 temperature (Tv1)
+* Heating cooling circuit 2 temperature (Tv2)
 * Outdoor coil temperature (Tp)
 * Discharge temperature (Td)
 * Suction temperature (Ts)
@@ -167,21 +167,21 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 ### Calculated values
 
-* Delta T  
+* Delta T
   *Difference between Tui and Tuo*
 
 ### Configuration settings
 
-* Flow sensor calibration  
+* Flow sensor calibration
   *Set to the number of pulses per liter when the pulse sensor is connected to correctly calculate the liters and flow*
-* Dallas temperature offset (1 through 3)  
+* Dallas temperature offset (1 through 3)
   *Use to offset the connected temperature sensors when they need to be corrected because of calibration differences*
-* Yellow LED status  
+* Yellow LED status
   *Set the function of the yellow LED on the control module*
 
 ## ESPHome configuration
 
-The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).  
+The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).
 
 The choice in parity depends on your Amber software version. There are two buttons available in the web interface which can be used to flash the firmware based on the needed parity settings.
 
