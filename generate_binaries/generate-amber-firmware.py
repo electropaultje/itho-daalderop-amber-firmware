@@ -59,11 +59,7 @@ for v in variants:
         md5 = md5_checksum(latest_filename)
         print(f"Calculated checksum: {md5}")
 
-        # STEP 7: Write calculated checksum into latest file
-        pathlib.Path(f"../{v['foldername']}/latest-{v['pcb']}.md5").write_text(md5)
-        print(f"Checksum written to file")
-
-        # STEP 8: Update release file
+        # STEP 7: Update release file
         out_yaml = release_file_json.replace("##MD5##", md5).replace("##FOLDER##", v["foldername"]).replace("##FILE##", version_filename).replace("##VERSION##", version_number)
         pathlib.Path(f"../{v['updatefile']}").write_text(out_yaml)
     else:
