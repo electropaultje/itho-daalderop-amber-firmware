@@ -80,7 +80,7 @@ Gebruik de volgende gegeven om het apparaat te installeren:
 
 ## Firmware updates
 
-Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden (vanaf versie 2024.7.0).
+Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden.
 
 ![Update available](/images/hass-update-device-nl.png)
 
@@ -182,8 +182,8 @@ De namen van de sensoren zijn in het Engels.
 
 ## ESPHome configuratie
 
-De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).
+De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden.
 
-De keuze tussen parity NONE en EVEN ligt aan de software van de Amber. Er is een button beschikbaar om de laatste firmware te flashen aan de hand van de gevraagde parity. Gebruik dit als je geen gegevens terug krijgt van de Amber.
+De keuze tussen parity NONE en EVEN ligt aan de software van de Amber. Er is een configuratie instelling beschikbaar om de correcte parity instelling te zetten. Standaard staat deze op NONE. Gebruik dit als je geen gegevens terug krijgt van de Amber.
 
 **Let op: Er wordt geen support geleverd op zelf aangebrachte wijzigingen.**

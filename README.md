@@ -12,7 +12,7 @@ The device is based on ESPHome, this means it can be integrated in Home Assistan
 
 **Please be advised that the Amber firmware version 2.29 has a bug which has the effect that the legionalla prevention schema is corrupted when writing values to the Amber. Reading of the values does not alter the schema.**
 
-**Currently Itho Daalderop is installing new software on Ambers. This can only be done locally. When this is done it is possible the control module will not communicate correctly anymore. In this case you will need to update the software with the firmware that ends with *-EVEN***
+**Currently Itho Daalderop is installing new software on Ambers. This can only be done locally. When this is done it is possible the control module will not communicate correctly anymore. In this case you will need to change the configuration to use the EVEN parity.**
 
 ## Connections
 
@@ -80,7 +80,7 @@ Use the following details to install the control module:
 
 ## Firmware updates
 
-When an update is available, this will be shown in Home Assistant (needed version 2024.7.0 or later).
+When an update is available, this will be shown in Home Assistant.
 
 ![Update available](/images/hass-update-device-en.png)
 
@@ -181,8 +181,8 @@ When an update is available, this will be shown in Home Assistant (needed versio
 
 ## ESPHome configuration
 
-The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself. The last used configuration can be found in this repository ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).
+The controle module will be delivered preprogrammed. It is possible to make changes to the configuration by adding the YAML configuration into ESPHome yourself.
 
-The choice in parity depends on your Amber software version. There are two buttons available in the web interface which can be used to flash the firmware based on the needed parity settings.
+The choice in parity depends on your Amber software version. There is a configuration setting which sets the parity. The default setting is NONE. Change this setting when no data is returned from the Amber.
 
 **Note: no support is given on self made changes**
