@@ -97,6 +97,8 @@ Updated to latest version of ESPHome (2026.6.1)
 
 Added config option for UART parity
 
+**BREAKING** Added setting for UART parity. Default to NONE, if your Amber need parity EVEN change the config setting.
+
 **BREAKING** Renamed sensors because of deprecated
 names:
 * Heating/cooling temperature - > Heating cooling temperature
