@@ -1,8 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.8.0
-  uart_parity: NONE
+  version: 1.9.0
   pcb_version: v3
   relays: 4
 
@@ -18,6 +17,26 @@ esphome:
   project:
     name: electropaultje.ithodaalderopAMBER
     version: ${version}
+  on_boot:
+    - priority: -1000
+      then:
+        - lambda: |-
+            id(uart_component).flush();
+            UARTParityOptions startup_parity = UART_CONFIG_PARITY_NONE;
+
+            if (id(uart_parity).current_option() == "EVEN") {
+              startup_parity = UART_CONFIG_PARITY_EVEN;
+              ESP_LOGI("uart", "Parity set to EVEN");
+            }
+            else {
+              ESP_LOGI("uart", "Parity set to NONE");
+            }
+
+
+            if (id(uart_component).get_parity() != startup_parity) {
+              id(uart_component).set_parity(startup_parity);
+              id(uart_component).load_settings();
+            }
 
 packages:
   amber: !include packages/amber.yaml
@@ -44,7 +63,7 @@ update:
   - platform: http_request
     name: Firmware update
     id: firmware_update
-    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-${pcb_version}-${relays}relay-${uart_parity|lower}.json
+    source: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/release-${pcb_version}-${relays}relay.json
 
 wifi:
   ap:
@@ -64,10 +83,10 @@ http_request:
   verify_ssl: false
 
 uart:
+  id: uart_component
   baud_rate: 19200
   rx_pin: GPIO32
   tx_pin: GPIO33
-  parity: ${uart_parity}
 
 modbus_controller:
   - id: modbus_con
@@ -154,22 +173,6 @@ button:
   - platform: factory_reset
     id: button_factory_reset
     name: Factory reset control module
-  - platform: template
-    id: flash_firmware_even
-    name: Flash latest firmware (EVEN)
-    entity_category: config
-    on_press:
-      - ota.http_request.flash:
-          md5_url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-even.md5
-          url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-even.bin
-  - platform: template
-    id: flash_firmware_none
-    name: Flash latest firmware (NONE)
-    entity_category: config
-    on_press:
-      - ota.http_request.flash:
-          md5_url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-none.md5
-          url: https://raw.githubusercontent.com/electropaultje/itho-daalderop-amber-firmware/main/${relays}relay/latest-${pcb_version}-none.bin
 
 number:
   - platform: template
@@ -269,3 +272,28 @@ web_server:
     - id: domestic_hot_water
       name: Domestic Hot Water
       sorting_weight: 2
+
+select:
+  - id: uart_parity
+    name: UART Parity
+    platform: template
+    options:
+      - "EVEN"
+      - "NONE"
+    initial_option: "NONE"
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    set_action:
+      - lambda: |-
+          id(uart_component).flush();
+          UARTParityOptions new_parity = UART_CONFIG_PARITY_NONE;
+          if (x == "EVEN") {
+            new_parity = UART_CONFIG_PARITY_EVEN;
+          }
+
+          if (id(uart_component).get_parity() != new_parity) {
+            ESP_LOGI("uart", "Update UART parity");
+            id(uart_component).set_parity(new_parity);
+            id(uart_component).load_settings();
+          }

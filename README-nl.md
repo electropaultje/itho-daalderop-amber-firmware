@@ -48,13 +48,13 @@ Als de verbindingskit wordt gebruikt is de rode draad de aansluiting A en moet m
 
 ### Verbind de control module met de WiFi
 
-De control module wordt geleverd met de laatste software. Bij de eerste keer opstarten moet het apparaat verbonden worden met het lokale WiFi netwerk.  
+De control module wordt geleverd met de laatste software. Bij de eerste keer opstarten moet het apparaat verbonden worden met het lokale WiFi netwerk.
 Volg hiervoor de volgende stappen:
 
-1. Verbind een mobiele telefoon met het uitgezonden netwerk *IthoDaalderop* en gebruik het wachtwoord *ithodaalderop*. Voor gemak kan ook de volgende QR code worden gescand:  
+1. Verbind een mobiele telefoon met het uitgezonden netwerk *IthoDaalderop* en gebruik het wachtwoord *ithodaalderop*. Voor gemak kan ook de volgende QR code worden gescand:
 ![qr](/images/qr-wifi.png)
-1. Een portal zou moeten openen waarin het correct WiFi netwerk geselecteerd kan worden en het wachtwoord kan worden ingevoerd.  
-Mocht deze portal niet automatisch openen, open dan een webbrowser en ga naar het adres [192.168.4.1](http://192.168.4.1/)  
+1. Een portal zou moeten openen waarin het correct WiFi netwerk geselecteerd kan worden en het wachtwoord kan worden ingevoerd.
+Mocht deze portal niet automatisch openen, open dan een webbrowser en ga naar het adres [192.168.4.1](http://192.168.4.1/)
 ![Captive portal](/images/captive_portal-ui.png)
 1. Selecteer het juiste netwerk en voer indien nodig het wachtwoord van het geselecteerde WiFi netwerk in
 1. Druk op Save
@@ -73,14 +73,14 @@ Door op *Check it out* te klikken zal de integraties pagina openen.
 
 Klikken op *Configureren* zal de installatie in Home Assistant starten.
 
-Mocht de control module niet automatisch gedetecteerd worden door Home Assistant, dan is het mogelijk om deze [handmatig te installeren](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).  
+Mocht de control module niet automatisch gedetecteerd worden door Home Assistant, dan is het mogelijk om deze [handmatig te installeren](https://my.home-assistant.io/redirect/config_flow_start?domain=esphome).
 Gebruik de volgende gegeven om het apparaat te installeren:
 
 ![ESPHome configuration](/images/hass-config-esphome-nl.png)
 
 ## Firmware updates
 
-Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden (vanaf versie 2024.7.0).
+Zodra een update beschikbaar is zal dit in Home Assistant gemeld worden.
 
 ![Update available](/images/hass-update-device-nl.png)
 
@@ -95,12 +95,12 @@ De namen van de sensoren zijn in het Engels.
 * Inside temperature (room temperature)
 * Ambient temperature (outside temperature)
 * Domestic hot water temperature (Tw)
-* Heating/cooling temperature (Tc)
+* Heating cooling temperature (Tc)
 * Heat exchanger water outlet temperature (Tuo)
 * Heat exchanger water inlet temperature (Tui)
 * Indoor coil temperature (Tup)
-* Heating/cooling circuit 1 temperature (Tv1)
-* Heating/cooling circuit 2 temperature (Tv2)
+* Heating cooling circuit 1 temperature (Tv1)
+* Heating cooling circuit 2 temperature (Tv2)
 * Outdoor coil temperature (Tp)
 * Discharge temperature (Td)
 * Suction temperature (Ts)
@@ -168,22 +168,22 @@ De namen van de sensoren zijn in het Engels.
 
 ### Berekende waarden
 
-* Delta T  
+* Delta T
   *Verschil tussen Tui en Tuo*
 
 ### Configuratie instellingen
 
-* Flow sensor calibration  
+* Flow sensor calibration
   *Zet deze op het aantal pulsen per liter als de pulssensor is aangesloten om zo correct het aantal liter en de doorstroming te kunnen berekenen*
-* Dallas temperature offset (1 through 3)  
+* Dallas temperature offset (1 through 3)
   *Gebruik deze instellingen om de aangesloten temperatuur sensoren correct te kalibreren*
-* Yellow LED status  
+* Yellow LED status
   *Stel de functie in van de gele LED op de control module*
 
 ## ESPHome configuratie
 
-De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden ([2 relay parity NONE](/firmware-2relay/firmware-2relay-none.yaml), [2 relay parity EVEN](/firmware-2relay/firmware-2relay-even.yaml), [4 relay parity NONE](/firmware-4relay/firmware-4relay-none.yaml), [4 relay parity EVEN](/firmware-4relay/firmware-4relay-even.yaml)).
+De control module wordt voorgeprogrammeerd geleverd. Het is mogelijk om zelf de configuratie via YAML aan te passen. Hiervoor is van de laatste versie de configuratie in deze repo te vinden.
 
-De keuze tussen parity NONE en EVEN ligt aan de software van de Amber. Er is een button beschikbaar om de laatste firmware te flashen aan de hand van de gevraagde parity. Gebruik dit als je geen gegevens terug krijgt van de Amber.
+De keuze tussen parity NONE en EVEN ligt aan de software van de Amber. Er is een configuratie instelling beschikbaar om de correcte parity instelling te zetten. Standaard staat deze op NONE. Gebruik dit als je geen gegevens terug krijgt van de Amber.
 
 **Let op: Er wordt geen support geleverd op zelf aangebrachte wijzigingen.**
