@@ -22,7 +22,7 @@ match = re.search(r'device_name:\s*([^\s]+)', base_yaml_json)
 project_name = match.group(1) if match else "notfound"
 
 build_path = f"../yaml/.esphome/build/{project_name}"
-compiled_file = f"{build_path}/.pioenvs/{project_name}/firmware.bin"
+compiled_file = f"{build_path}/build/firmware.ota.bin"
 
 variants = [
     {"pcb": "v2", "relays": "4", "updatefile": "release-v2-4relay.json", "foldername": "firmware-4relay"},
