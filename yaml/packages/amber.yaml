@@ -167,7 +167,6 @@ sensor:
     address: 511
     register_type: holding
     value_type: S_WORD
-    register_count: 4
     filters:
       - multiply: 0.1
       - filter_out: -99
@@ -182,6 +181,7 @@ sensor:
     address: 515
     register_type: holding
     value_type: S_WORD
+    reuse_previous_range: true
   - platform: modbus_controller
     name: Expansion valve setting
     state_class: measurement
@@ -310,7 +310,6 @@ sensor:
     address: 526
     register_type: holding
     value_type: S_WORD
-    register_count: 2
   - platform: modbus_controller
     name: Running current
     device_class: current
@@ -320,6 +319,7 @@ sensor:
     address: 528
     register_type: holding
     value_type: S_WORD
+    reuse_previous_range: true
     filters:
       - multiply: 0.1
   - platform: modbus_controller
@@ -373,7 +373,6 @@ sensor:
     address: 704
     register_type: holding
     value_type: S_WORD
-    register_count: 10
     filters:
       - multiply: 0.1
     web_server:
@@ -387,6 +386,7 @@ sensor:
     address: 714
     register_type: holding
     value_type: S_WORD
+    reuse_previous_range: true
     filters:
       - multiply: 0.1
     web_server:
@@ -446,7 +446,7 @@ binary_sensor:
     register_type: holding
     address: 530
     bitmask: 0x1
-    force_new_range: true
+    reuse_previous_range: false
   - platform: modbus_controller
     name: Water flow switch
     icon: mdi:waves
@@ -1271,7 +1271,6 @@ select:
       Domestic hot water: 3
       Auto: 4
     icon: mdi:cog-outline
-    register_count: 2
   - platform: modbus_controller
     name: Pump speed heating
     address: 214

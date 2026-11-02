@@ -108,3 +108,6 @@ names:
 * P10 - AC over high/low voltage protection - > P10 - AC over high or low voltage protection
 * P11 - Compressor shut down due to too high/low outdoor temperature -> P11 - Compressor shut down due to too highor low outdoor temperature
 * F15 - Cooling/heating water temperature sensor failure (Tc) -> F15 - Cooling heating water temperature sensor failure (Tc)
+
+## Version 1.10.0
+Updated to latest version of ESPHome (2026.10.1)
