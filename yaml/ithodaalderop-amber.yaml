@@ -1,7 +1,7 @@
 substitutions:
   device_name: ithodaalderop-amber
   friendly_name: Itho Daalderop Amber Heat Pump Control Module
-  version: 1.10.0
+  version: 1.10.1
   pcb_version: v3
   relays: 4
 
@@ -49,7 +49,9 @@ esp32:
     type: esp-idf
 
 logger:
-  level: INFO
+  level: DEBUG
+  logs:
+    component: ERROR
 
 api:
   reboot_timeout: 0s
@@ -71,6 +73,8 @@ wifi:
     password: ithodaalderop
 
 captive_portal:
+
+improv_serial:
 
 status_led:
   pin:
@@ -297,3 +301,43 @@ select:
             id(uart_component).set_parity(new_parity);
             id(uart_component).load_settings();
           }
+  - platform: template
+    name: Log level
+    id: log_level
+    optimistic: true
+    restore_value: true
+    entity_category: config
+    initial_option: "INFO"
+    options:
+      - "NONE"
+      - "ERROR"
+      - "WARN"
+      - "INFO"
+      - "DEBUG"
+    on_value:
+      then:
+        - if:
+            condition:
+              lambda: 'return id(log_level).current_option() == "NONE";'
+            then:
+              - logger.set_level: NONE
+        - if:
+            condition:
+              lambda: 'return id(log_level).current_option() == "ERROR";'
+            then:
+              - logger.set_level: ERROR
+        - if:
+            condition:
+              lambda: 'return id(log_level).current_option() == "WARN";'
+            then:
+              - logger.set_level: WARN
+        - if:
+            condition:
+              lambda: 'return id(log_level).current_option() == "INFO";'
+            then:
+              - logger.set_level: INFO
+        - if:
+            condition:
+              lambda: 'return id(log_level).current_option() == "DEBUG";'
+            then:
+              - logger.set_level: DEBUG
